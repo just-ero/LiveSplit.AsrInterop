@@ -1,0 +1,10 @@
+<!-- Defines common paths used across projects. -->
+<Project>
+
+  <PropertyGroup>
+    <RootPath>$(MSBuildThisFileDirectory)/..</RootPath>
+
+    <SrcPath>$(RootPath)/src</SrcPath>
+  </PropertyGroup>
+
+</Project>

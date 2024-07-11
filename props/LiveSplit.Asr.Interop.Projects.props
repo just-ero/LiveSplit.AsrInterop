@@ -1,0 +1,15 @@
+<!-- Defines properties shared by all projects. -->
+<Project>
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- Output properties. -->
+  <PropertyGroup>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <ArtifactsOutputPath>$(RootPath)/artifacts</ArtifactsOutputPath>
+  </PropertyGroup>
+
+</Project>
