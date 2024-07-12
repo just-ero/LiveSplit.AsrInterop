@@ -20,7 +20,7 @@ public static unsafe class SettingValue
     ///     The caller is responsible for freeing the returned value using <see cref="Free"/>.<br/>
     ///     The caller retains ownership of the provided <paramref name="map"/>.
     /// </remarks>
-    public static USettingValue New(USettingsMap map)
+    public static SettingValueHandle New(SettingsMapHandle map)
     {
         return sys.setting_value_new_map(map);
     }
@@ -38,7 +38,7 @@ public static unsafe class SettingValue
     ///     The caller is responsible for freeing the returned value using <see cref="Free"/>.<br/>
     ///     The caller retains ownership of the provided <paramref name="list"/>.
     /// </remarks>
-    public static USettingValue New(USettingsList list)
+    public static SettingValueHandle New(SettingsListHandle list)
     {
         return sys.setting_value_new_list(list);
     }
@@ -55,7 +55,7 @@ public static unsafe class SettingValue
     /// <remarks>
     ///     The caller is responsible for freeing the returned value using <see cref="Free"/>.
     /// </remarks>
-    public static USettingValue New(bool value)
+    public static SettingValueHandle New(bool value)
     {
         return sys.setting_value_new_bool((byte)(value ? 1 : 0));
     }
@@ -72,7 +72,7 @@ public static unsafe class SettingValue
     /// <remarks>
     ///     The caller is responsible for freeing the returned value using <see cref="Free"/>.
     /// </remarks>
-    public static USettingValue New(long value)
+    public static SettingValueHandle New(long value)
     {
         return sys.setting_value_new_i64(value);
     }
@@ -89,7 +89,7 @@ public static unsafe class SettingValue
     /// <remarks>
     ///     The caller is responsible for freeing the returned value using <see cref="Free"/>.
     /// </remarks>
-    public static USettingValue New(double value)
+    public static SettingValueHandle New(double value)
     {
         return sys.setting_value_new_f64(value);
     }
@@ -106,7 +106,7 @@ public static unsafe class SettingValue
     /// <remarks>
     ///     The caller is responsible for freeing the returned value using <see cref="Free"/>.
     /// </remarks>
-    public static USettingValue New(string value)
+    public static SettingValueHandle New(string value)
     {
         return New(Encoding.UTF8.GetBytes(value));
     }
@@ -123,7 +123,7 @@ public static unsafe class SettingValue
     /// <remarks>
     ///     The caller is responsible for freeing the returned value using <see cref="Free"/>.
     /// </remarks>
-    public static USettingValue New(ReadOnlySpan<byte> value)
+    public static SettingValueHandle New(ReadOnlySpan<byte> value)
     {
         fixed (byte* pValue = value)
         {
@@ -137,7 +137,7 @@ public static unsafe class SettingValue
     /// <param name="setting">
     ///     The setting value to free.
     /// </param>
-    public static void Free(USettingValue setting)
+    public static void Free(SettingValueHandle setting)
     {
         sys.setting_value_free(setting);
     }
@@ -151,7 +151,7 @@ public static unsafe class SettingValue
     /// <returns>
     ///     The type of the provided setting value.
     /// </returns>
-    public static SettingValueType GetType(USettingValue setting)
+    public static SettingValueType GetType(SettingValueHandle setting)
     {
         return (SettingValueType)sys.setting_value_get_type(setting);
     }
@@ -164,19 +164,19 @@ public static unsafe class SettingValue
     /// </param>
     /// <param name="map">
     ///     The map value of the provided setting value when the method succeeds;
-    ///     otherwise, <see cref="USettingsMap.None"/>.
+    ///     otherwise, <see cref="SettingsMapHandle.Zero"/>.
     /// </param>
     /// <returns>
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///     The caller is responsible for freeing the returned value using <see cref="USettingsMap.Free"/>.
+    ///     The caller is responsible for freeing the returned value using <see cref="SettingsMapHandle.Free"/>.
     ///     The caller retains ownership of the provided <paramref name="setting"/>.
     /// </remarks>
-    public static bool Get(USettingValue setting, out USettingsMap map)
+    public static bool Get(SettingValueHandle setting, out SettingsMapHandle map)
     {
-        fixed (USettingsMap* pMap = &map)
+        fixed (SettingsMapHandle* pMap = &map)
         {
             return sys.setting_value_get_map(setting, (ulong*)pMap) != 0;
         }
@@ -190,19 +190,19 @@ public static unsafe class SettingValue
     /// </param>
     /// <param name="list">
     ///     The list value of the provided setting value when the method succeeds;
-    ///     otherwise, <see cref="USettingsList.None"/>.
+    ///     otherwise, <see cref="SettingsListHandle.Zero"/>.
     /// </param>
     /// <returns>
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
     /// <remarks>
-    ///     The caller is responsible for freeing the returned value using <see cref="USettingsList.Free"/>.
+    ///     The caller is responsible for freeing the returned value using <see cref="SettingsListHandle.Free"/>.
     ///     The caller retains ownership of the provided <paramref name="setting"/>.
     /// </remarks>
-    public static bool Get(USettingValue setting, out USettingsList list)
+    public static bool Get(SettingValueHandle setting, out SettingsListHandle list)
     {
-        fixed (USettingsList* pList = &list)
+        fixed (SettingsListHandle* pList = &list)
         {
             return sys.setting_value_get_list(setting, (ulong*)pList) != 0;
         }
@@ -222,7 +222,7 @@ public static unsafe class SettingValue
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool Get(USettingValue setting, out bool value)
+    public static bool Get(SettingValueHandle setting, out bool value)
     {
         fixed (bool* pValue = &value)
         {
@@ -244,7 +244,7 @@ public static unsafe class SettingValue
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool Get(USettingValue setting, out long value)
+    public static bool Get(SettingValueHandle setting, out long value)
     {
         fixed (long* pValue = &value)
         {
@@ -266,7 +266,7 @@ public static unsafe class SettingValue
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool Get(USettingValue setting, out double value)
+    public static bool Get(SettingValueHandle setting, out double value)
     {
         fixed (double* pValue = &value)
         {
@@ -288,7 +288,7 @@ public static unsafe class SettingValue
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool Get(USettingValue setting, [NotNullWhen(true)] out string? value)
+    public static bool Get(SettingValueHandle setting, [NotNullWhen(true)] out string? value)
     {
         nuint length = 256;
 

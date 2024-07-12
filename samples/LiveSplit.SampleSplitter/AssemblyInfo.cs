@@ -1,3 +1,4 @@
+using LiveSplit.AsrInterop;
 using LiveSplit.SampleSplitter;
 
-[assembly: LiveSplit.AsrInterop.Autosplitter<SampleSplitter>]
+[assembly: Autosplitter<SampleSplitter>]

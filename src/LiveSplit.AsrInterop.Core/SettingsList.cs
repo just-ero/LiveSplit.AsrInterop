@@ -11,7 +11,7 @@ public static unsafe class SettingsList
     /// <remarks>
     ///     The caller is responsible for freeing the returned list using <see cref="Free"/>.
     /// </remarks>
-    public static USettingsList New()
+    public static SettingsListHandle New()
     {
         return sys.settings_list_new();
     }
@@ -22,7 +22,7 @@ public static unsafe class SettingsList
     /// <param name="list">
     ///     The list to free.
     /// </param>
-    public static void Free(USettingsList list)
+    public static void Free(SettingsListHandle list)
     {
         sys.settings_list_free(list);
     }
@@ -39,7 +39,7 @@ public static unsafe class SettingsList
     /// <remarks>
     ///     The caller is responsible for freeing the returned list using <see cref="Free"/>.
     /// </remarks>
-    public static USettingsList Copy(USettingsList list)
+    public static SettingsListHandle Copy(SettingsListHandle list)
     {
         return sys.settings_list_copy(list);
     }
@@ -53,7 +53,7 @@ public static unsafe class SettingsList
     /// <returns>
     ///     The length of the list.
     /// </returns>
-    public static ulong Len(USettingsList list)
+    public static ulong Len(SettingsListHandle list)
     {
         return sys.settings_list_len(list);
     }
@@ -69,12 +69,12 @@ public static unsafe class SettingsList
     /// </param>
     /// <returns>
     ///     The value at the specified index when the method succeeds;
-    ///     otherwise, <see cref="USettingValue.None"/>.
+    ///     otherwise, <see cref="SettingValueHandle.Zero"/>.
     /// </returns>
     /// <remarks>
     ///     The caller is responsible for freeing the returned value using <see cref="SettingValue.Free"/>.
     /// </remarks>
-    public static USettingValue Get(USettingsList list, ulong index)
+    public static SettingValueHandle Get(SettingsListHandle list, ulong index)
     {
         return sys.settings_list_get(list, index);
     }
@@ -88,7 +88,7 @@ public static unsafe class SettingsList
     /// <param name="value">
     ///     The value to add.
     /// </param>
-    public static void Push(USettingsList list, USettingValue value)
+    public static void Push(SettingsListHandle list, SettingValueHandle value)
     {
         sys.settings_list_push(list, value);
     }
@@ -109,7 +109,7 @@ public static unsafe class SettingsList
     ///     <see langword="true"/> if the value was inserted successfully;
     ///     <see langword="false"/> otherwise.
     /// </returns>
-    public static bool Insert(USettingsList list, ulong index, USettingValue value)
+    public static bool Insert(SettingsListHandle list, ulong index, SettingValueHandle value)
     {
         return sys.settings_list_insert(list, index, value) != 0;
     }

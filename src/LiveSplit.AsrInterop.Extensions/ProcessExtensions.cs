@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 using LiveSplit.AsrInterop.Core;
 
@@ -168,5 +169,47 @@ public static class ProcessExtensions
         }
 
         return true;
+    }
+
+    public static unsafe UAddress Deref(this Process process, UAddress address, params ReadOnlySpan<uint> offsets)
+    {
+        UAddress deref = address;
+        foreach (uint offset in offsets)
+        {
+            if (!Core.Process.Read(process.Handle, deref, &deref, process.GetNativeSizeOf<nuint>()))
+            {
+                return UAddress.Zero;
+            }
+
+            deref += offset;
+        }
+
+        return deref;
+    }
+
+    public static unsafe T Read<T>(this Process process, UAddress address, params ReadOnlySpan<uint> offsets)
+        where T : unmanaged
+    {
+        var deref = process.Deref(address, offsets);
+
+        T value;
+        if (Core.Process.Read(process.Handle, deref, &value, process.GetNativeSizeOf<T>()))
+        {
+            return value;
+        }
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool IsNativeType<T>()
+    {
+        return typeof(T) == typeof(nint) || typeof(T) == typeof(nuint) || typeof(T) == typeof(UAddress);
+    }
+
+    private static unsafe uint GetNativeSizeOf<T>(this Process process)
+        where T : unmanaged
+    {
+        return IsNativeType<T>() ? (process.Is64Bit ? 0x8u : 0x4u) : (uint)sizeof(T);
     }
 }

@@ -11,6 +11,29 @@ internal static unsafe partial class sys
     private const string ImportModule = "env";
 
     [WasmImportLinkage]
+    [DllImport(ImportModule, EntryPoint = nameof(runtime_set_tick_rate))]
+    public static extern void runtime_set_tick_rate(
+        double ticks_per_second);
+
+    [WasmImportLinkage]
+    [DllImport(ImportModule, EntryPoint = nameof(runtime_print_message))]
+    public static extern void runtime_print_message(
+        byte* text_ptr,
+        nuint text_len);
+
+    [WasmImportLinkage]
+    [DllImport(ImportModule, EntryPoint = nameof(runtime_get_os))]
+    public static extern byte runtime_get_os(
+        byte* buf_ptr,
+        nuint* buf_len_ptr);
+
+    [WasmImportLinkage]
+    [DllImport(ImportModule, EntryPoint = nameof(runtime_get_arch))]
+    public static extern byte runtime_get_arch(
+        byte* buf_ptr,
+        nuint* buf_len_ptr);
+
+    [WasmImportLinkage]
     [DllImport(ImportModule, EntryPoint = nameof(timer_get_state))]
     public static extern uint timer_get_state();
 
@@ -145,29 +168,6 @@ internal static unsafe partial class sys
     public static extern ulong process_get_memory_range_flags(
         ulong process,
         ulong idx);
-
-    [WasmImportLinkage]
-    [DllImport(ImportModule, EntryPoint = nameof(runtime_set_tick_rate))]
-    public static extern void runtime_set_tick_rate(
-        double ticks_per_second);
-
-    [WasmImportLinkage]
-    [DllImport(ImportModule, EntryPoint = nameof(runtime_print_message))]
-    public static extern void runtime_print_message(
-        byte* text_ptr,
-        nuint text_len);
-
-    [WasmImportLinkage]
-    [DllImport(ImportModule, EntryPoint = nameof(runtime_get_os))]
-    public static extern byte runtime_get_os(
-        byte* buf_ptr,
-        nuint* buf_len_ptr);
-
-    [WasmImportLinkage]
-    [DllImport(ImportModule, EntryPoint = nameof(runtime_get_arch))]
-    public static extern byte runtime_get_arch(
-        byte* buf_ptr,
-        nuint* buf_len_ptr);
 
     [WasmImportLinkage]
     [DllImport(ImportModule, EntryPoint = nameof(user_settings_add_bool))]

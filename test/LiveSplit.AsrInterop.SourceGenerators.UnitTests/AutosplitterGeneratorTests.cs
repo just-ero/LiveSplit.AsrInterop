@@ -19,7 +19,7 @@ public sealed class AutosplitterGeneratorTests
         string fullName = $"{@namespace}.{@class}";
 
         string source = $$"""
-            [assembly: LiveSplit.AsrInterop.AutosplitterAttribute<AutosplitterTests.TestAutosplitter>]
+            [assembly: LiveSplit.AsrInterop.AutosplitterAttribute<{{fullName}}>]
 
             namespace {{@namespace}};
 

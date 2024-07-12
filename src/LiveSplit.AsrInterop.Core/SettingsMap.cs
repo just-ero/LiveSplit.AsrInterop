@@ -16,7 +16,7 @@ public static unsafe class SettingsMap
     /// <remarks>
     ///     The caller is responsible for freeing the returned map using <see cref="Free"/>.
     /// </remarks>
-    public static USettingsMap New()
+    public static SettingsMapHandle New()
     {
         return sys.settings_map_new();
     }
@@ -24,7 +24,7 @@ public static unsafe class SettingsMap
     /// <summary>
     ///     Frees the provided <paramref name="map"/>.
     /// </summary>
-    public static void Free(USettingsMap map)
+    public static void Free(SettingsMapHandle map)
     {
         sys.settings_map_free(map);
     }
@@ -35,7 +35,7 @@ public static unsafe class SettingsMap
     /// <remarks>
     ///     The caller is responsible for freeing the returned map using <see cref="Free"/>.
     /// </remarks>
-    public static USettingsMap Load()
+    public static SettingsMapHandle Load()
     {
         return sys.settings_map_load();
     }
@@ -46,7 +46,7 @@ public static unsafe class SettingsMap
     /// <remarks>
     ///     The caller is still responsible for freeing the map using <see cref="Free"/>.
     /// </remarks>
-    public static void Store(USettingsMap map)
+    public static void Store(SettingsMapHandle map)
     {
         sys.settings_map_store(map);
     }
@@ -65,7 +65,7 @@ public static unsafe class SettingsMap
     ///     <see langword="true"/> if the new map was stored;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool StoreIfUnchanged(USettingsMap oldMap, USettingsMap newMap)
+    public static bool StoreIfUnchanged(SettingsMapHandle oldMap, SettingsMapHandle newMap)
     {
         return sys.settings_map_store_if_unchanged(oldMap, newMap) != 0;
     }
@@ -83,7 +83,7 @@ public static unsafe class SettingsMap
     ///     Changes to the returned map do not affect the original map.<br/>
     ///     The caller is responsible for freeing the returned map using <see cref="Free"/>.
     /// </remarks>
-    public static USettingsMap Copy(USettingsMap map)
+    public static SettingsMapHandle Copy(SettingsMapHandle map)
     {
         return sys.settings_map_copy(map);
     }
@@ -100,7 +100,7 @@ public static unsafe class SettingsMap
     /// <param name="value">
     ///     The value to insert.
     /// </param>
-    public static void Insert(USettingsMap map, string key, USettingValue value)
+    public static void Insert(SettingsMapHandle map, string key, SettingValueHandle value)
     {
         Insert(map, Encoding.UTF8.GetBytes(key), value);
     }
@@ -117,7 +117,7 @@ public static unsafe class SettingsMap
     /// <param name="value">
     ///     The value corresponding to the key.
     /// </param>
-    public static void Insert(USettingsMap map, ReadOnlySpan<byte> key, USettingValue value)
+    public static void Insert(SettingsMapHandle map, ReadOnlySpan<byte> key, SettingValueHandle value)
     {
         fixed (byte* pKey = key)
         {
@@ -136,12 +136,12 @@ public static unsafe class SettingsMap
     /// </param>
     /// <returns>
     ///     The value associated with the specified <paramref name="key"/> if it exists;
-    ///     otherwise, <see cref="USettingValue.None"/>.
+    ///     otherwise, <see cref="SettingValueHandle.Zero"/>.
     /// </returns>
     /// <remarks>
     ///     The caller is responsible for freeing the returned value using <see cref="SettingValue.Free"/>.
     /// </remarks>
-    public static USettingValue Get(USettingsMap map, string key)
+    public static SettingValueHandle Get(SettingsMapHandle map, string key)
     {
         return Get(map, Encoding.UTF8.GetBytes(key));
     }
@@ -157,12 +157,12 @@ public static unsafe class SettingsMap
     /// </param>
     /// <returns>
     ///     The value associated with the specified <paramref name="key"/> if it exists;
-    ///     otherwise, <see cref="USettingValue.None"/>.
+    ///     otherwise, <see cref="SettingValueHandle.Zero"/>.
     /// </returns>
     /// <remarks>
     ///     The caller is responsible for freeing the returned value using <see cref="SettingValue.Free"/>.
     /// </remarks>
-    public static USettingValue Get(USettingsMap map, ReadOnlySpan<byte> key)
+    public static SettingValueHandle Get(SettingsMapHandle map, ReadOnlySpan<byte> key)
     {
         fixed (byte* pKey = key)
         {
@@ -179,7 +179,7 @@ public static unsafe class SettingsMap
     /// <returns>
     ///     The length of the map.
     /// </returns>
-    public static ulong Len(USettingsMap map)
+    public static ulong Len(SettingsMapHandle map)
     {
         return sys.settings_map_len(map);
     }
@@ -201,7 +201,7 @@ public static unsafe class SettingsMap
     ///     <see langword="true"/> if the key was successfully retrieved;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool GetKeyByIndex(USettingsMap map, ulong index, [NotNullWhen(true)] out string? key)
+    public static bool GetKeyByIndex(SettingsMapHandle map, ulong index, [NotNullWhen(true)] out string? key)
     {
         nuint length = 128;
 
@@ -246,7 +246,7 @@ public static unsafe class SettingsMap
     /// <remarks>
     ///     The caller is responsible for freeing the returned value using <see cref="SettingValue.Free"/>.
     /// </remarks>
-    public static USettingValue GetValueByIndex(USettingsMap map, ulong index)
+    public static SettingValueHandle GetValueByIndex(SettingsMapHandle map, ulong index)
     {
         return sys.settings_map_get_value_by_index(map, index);
     }

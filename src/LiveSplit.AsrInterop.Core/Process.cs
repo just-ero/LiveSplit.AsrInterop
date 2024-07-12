@@ -20,9 +20,9 @@ public static unsafe class Process
     /// </param>
     /// <returns>
     ///     A handle to the youngest process with the specified <paramref name="name"/> when the method succeeds;
-    ///     otherwise, <see cref="UHandle.None"/>.
+    ///     otherwise, <see cref="ProcessHandle.Zero"/>.
     /// </returns>
-    public static UHandle Attach(string name)
+    public static ProcessHandle Attach(string name)
     {
         return Attach(Encoding.UTF8.GetBytes(name));
     }
@@ -35,9 +35,9 @@ public static unsafe class Process
     /// </param>
     /// <returns>
     ///     A handle to the youngest process with the specified <paramref name="name"/> when the method succeeds;
-    ///     otherwise, <see cref="UHandle.None"/>.
+    ///     otherwise, <see cref="ProcessHandle.Zero"/>.
     /// </returns>
-    public static UHandle Attach(ReadOnlySpan<byte> name)
+    public static ProcessHandle Attach(ReadOnlySpan<byte> name)
     {
         fixed (byte* pName = name)
         {
@@ -53,15 +53,15 @@ public static unsafe class Process
     /// </param>
     /// <returns>
     ///     A handle to the process with the specified process ID when the method succeeds;
-    ///     otherwise, <see cref="UHandle.None"/>.
+    ///     otherwise, <see cref="ProcessHandle.Zero"/>.
     /// </returns>
-    public static UHandle AttachByPid(ulong id)
+    public static ProcessHandle AttachByPid(ulong id)
     {
         return sys.process_attach_by_pid(id);
     }
 
     /// <summary>
-    ///     Lists all processes with the specified <paramref name="name"/>.
+    ///     Lists all processes matching the specified <paramref name="name"/>.
     /// </summary>
     /// <param name="name">
     ///     The name of the processes to list.
@@ -79,7 +79,7 @@ public static unsafe class Process
     }
 
     /// <summary>
-    ///     Lists all processes with the specified <paramref name="name"/>.
+    ///     Lists all processes matching the specified <paramref name="name"/>.
     /// </summary>
     /// <param name="name">
     ///     The name of the processes to list.
@@ -134,7 +134,7 @@ public static unsafe class Process
     ///     <see langword="true"/> when the process is running;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool IsOpen(UHandle processHandle)
+    public static bool IsOpen(ProcessHandle processHandle)
     {
         return sys.process_is_open(processHandle) != 0;
     }
@@ -145,7 +145,7 @@ public static unsafe class Process
     /// <param name="processHandle">
     ///     A handle to the target process.
     /// </param>
-    public static void Detach(UHandle processHandle)
+    public static void Detach(ProcessHandle processHandle)
     {
         sys.process_detach(processHandle);
     }
@@ -164,7 +164,7 @@ public static unsafe class Process
     /// <remarks>
     ///     A file path in the form of <c>C:\path\to\executable.exe</c> will be returned as <c>/mnt/c/path/to/executable.exe</c>.
     /// </remarks>
-    public static bool GetPath(UHandle processHandle, [NotNullWhen(true)] out string? path)
+    public static bool GetPath(ProcessHandle processHandle, [NotNullWhen(true)] out string? path)
     {
         nuint length = MaxPath;
 
@@ -195,7 +195,7 @@ public static unsafe class Process
     }
 
     /// <summary>
-    ///     Reads a buffer of the specified size at the specified address in the target process.
+    ///     Reads a value of the specified size at the specified address in the target process.
     /// </summary>
     /// <param name="processHandle">
     ///     A handle to the target process.
@@ -213,9 +213,9 @@ public static unsafe class Process
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool Read(UHandle processHandle, UAddress address, byte* buffer, nuint length)
+    public static bool Read(ProcessHandle processHandle, UAddress address, void* buffer, nuint length)
     {
-        return sys.process_read(processHandle, address, buffer, length) != 0;
+        return sys.process_read(processHandle, address, (byte*)buffer, length) != 0;
     }
 
     /// <summary>
@@ -229,9 +229,9 @@ public static unsafe class Process
     /// </param>
     /// <returns>
     ///     The load address of the module when the method succeeds;
-    ///     otherwise, <see cref="UAddress.None"/>.
+    ///     otherwise, <see cref="UAddress.Zero"/>.
     /// </returns>
-    public static UAddress GetModuleAddress(UHandle processHandle, string name)
+    public static UAddress GetModuleAddress(ProcessHandle processHandle, string name)
     {
         return GetModuleAddress(processHandle, Encoding.UTF8.GetBytes(name));
     }
@@ -247,9 +247,9 @@ public static unsafe class Process
     /// </param>
     /// <returns>
     ///     The load address of the module when the method succeeds;
-    ///     otherwise, <see cref="UAddress.None"/>.
+    ///     otherwise, <see cref="UAddress.Zero"/>.
     /// </returns>
-    public static UAddress GetModuleAddress(UHandle processHandle, ReadOnlySpan<byte> name)
+    public static UAddress GetModuleAddress(ProcessHandle processHandle, ReadOnlySpan<byte> name)
     {
         fixed (byte* pName = name)
         {
@@ -270,7 +270,7 @@ public static unsafe class Process
     ///     The size, in bytes, of the memory that the module occupies when the method succeeds;
     ///     otherwise, <c>0</c>.
     /// </returns>
-    public static ulong GetModuleSize(UHandle processHandle, string name)
+    public static ulong GetModuleSize(ProcessHandle processHandle, string name)
     {
         return GetModuleSize(processHandle, Encoding.UTF8.GetBytes(name));
     }
@@ -288,7 +288,7 @@ public static unsafe class Process
     ///     The size, in bytes, of the memory that the module occupies when the method succeeds;
     ///     otherwise, <c>0</c>.
     /// </returns>
-    public static ulong GetModuleSize(UHandle processHandle, ReadOnlySpan<byte> name)
+    public static ulong GetModuleSize(ProcessHandle processHandle, ReadOnlySpan<byte> name)
     {
         fixed (byte* pName = name)
         {
@@ -313,7 +313,7 @@ public static unsafe class Process
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool GetModulePath(UHandle processHandle, string name, [NotNullWhen(true)] out string? path)
+    public static bool GetModulePath(ProcessHandle processHandle, string name, [NotNullWhen(true)] out string? path)
     {
         return GetModulePath(processHandle, Encoding.UTF8.GetBytes(name), out path);
     }
@@ -335,7 +335,7 @@ public static unsafe class Process
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool GetModulePath(UHandle processHandle, ReadOnlySpan<byte> name, [NotNullWhen(true)] out string? path)
+    public static bool GetModulePath(ProcessHandle processHandle, ReadOnlySpan<byte> name, [NotNullWhen(true)] out string? path)
     {
         fixed (byte* pName = name)
         {
@@ -378,7 +378,7 @@ public static unsafe class Process
     ///     The number of memory ranges when the method succeeds;
     ///     otherwise, <c>0</c>.
     /// </returns>
-    public static ulong GetMemoryRangeCount(UHandle processHandle)
+    public static ulong GetMemoryRangeCount(ProcessHandle processHandle)
     {
         return sys.process_get_memory_range_count(processHandle);
     }
@@ -395,7 +395,7 @@ public static unsafe class Process
     /// <returns>
     ///     The address of the memory range when the method succeeds;
     /// </returns>
-    public static UAddress GetMemoryRangeAddress(UHandle processHandle, ulong index)
+    public static UAddress GetMemoryRangeAddress(ProcessHandle processHandle, ulong index)
     {
         return sys.process_get_memory_range_address(processHandle, index);
     }
@@ -413,7 +413,7 @@ public static unsafe class Process
     ///     The size of the memory range when the method succeeds;
     ///     otherwise, <c>0</c>.
     /// </returns>
-    public static ulong GetMemoryRangeSize(UHandle processHandle, ulong index)
+    public static ulong GetMemoryRangeSize(ProcessHandle processHandle, ulong index)
     {
         return sys.process_get_memory_range_size(processHandle, index);
     }
@@ -431,7 +431,7 @@ public static unsafe class Process
     ///     The flags of the memory range when the method succeeds;
     ///     otherwise, <see cref="MemoryRangeFlags.None"/>.
     /// </returns>
-    public static MemoryRangeFlags GetMemoryRangeFlags(UHandle processHandle, ulong index)
+    public static MemoryRangeFlags GetMemoryRangeFlags(ProcessHandle processHandle, ulong index)
     {
         return (MemoryRangeFlags)sys.process_get_memory_range_flags(processHandle, index);
     }
