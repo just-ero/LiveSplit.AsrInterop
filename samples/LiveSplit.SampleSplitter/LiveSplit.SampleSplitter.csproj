@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Using Alias="Process" Include="LiveSplit.AsrInterop.Process" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="$(SrcPath)/LiveSplit.AsrInterop/LiveSplit.AsrInterop.csproj" />
     <ProjectReference Include="$(SrcPath)/LiveSplit.AsrInterop.Extensions/LiveSplit.AsrInterop.Extensions.csproj" />
     <ProjectReference Include="$(SrcPath)/LiveSplit.AsrInterop.SourceGenerators/LiveSplit.AsrInterop.SourceGenerators.csproj"

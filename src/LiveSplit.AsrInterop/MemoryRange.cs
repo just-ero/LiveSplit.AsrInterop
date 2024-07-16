@@ -3,6 +3,6 @@ using LiveSplit.AsrInterop.Core;
 namespace LiveSplit.AsrInterop;
 
 public readonly record struct MemoryRange(
-    UAddress BaseAddress,
+    Address BaseAddress,
     ulong RegionSize,
     MemoryRangeFlags Flags);

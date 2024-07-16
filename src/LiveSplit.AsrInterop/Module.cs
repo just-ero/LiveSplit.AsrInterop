@@ -4,6 +4,6 @@ namespace LiveSplit.AsrInterop;
 
 public sealed record Module(
     string ModuleName,
-    UAddress BaseAddress,
+    Address BaseAddress,
     ulong Size,
     string FileName);

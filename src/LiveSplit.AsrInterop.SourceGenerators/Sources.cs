@@ -34,7 +34,7 @@ public static class Sources
 
                 public virtual void Startup() { }
 
-                public virtual void Init(LiveSplit.AsrInterop.Process game) { }
+                public virtual bool Init(LiveSplit.AsrInterop.Process game) => true;
                 public virtual bool Update(LiveSplit.AsrInterop.Process game) => true;
 
                 public virtual bool Start(LiveSplit.AsrInterop.Process game) => false;
@@ -46,12 +46,14 @@ public static class Sources
 
                 public virtual void Exit() { }
 
+                [global::System.Diagnostics.StackTraceHiddenAttribute]
                 [global::System.Runtime.InteropServices.UnmanagedCallersOnly(EntryPoint = "update")]
                 private static void UpdateInternal() {
                     if (_process is null) {
                         foreach (string processName in _instance.ProcessNames) {
-                            if (LiveSplit.AsrInterop.Process.TryGetProcessByName(processName, out _process)) {
-                                _instance.Init(_process);
+                            if (LiveSplit.AsrInterop.Process.TryGetProcessByName(processName, out LiveSplit.AsrInterop.Process? process)
+                                && _instance.Init(process)) {
+                                _process = process;
                                 break;
                             }
                         }

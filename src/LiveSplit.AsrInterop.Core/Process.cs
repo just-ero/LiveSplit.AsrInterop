@@ -213,7 +213,7 @@ public static unsafe class Process
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool Read(ProcessHandle processHandle, UAddress address, void* buffer, nuint length)
+    public static bool Read(ProcessHandle processHandle, Address address, void* buffer, nuint length)
     {
         return sys.process_read(processHandle, address, (byte*)buffer, length) != 0;
     }
@@ -229,9 +229,9 @@ public static unsafe class Process
     /// </param>
     /// <returns>
     ///     The load address of the module when the method succeeds;
-    ///     otherwise, <see cref="UAddress.Zero"/>.
+    ///     otherwise, <see cref="Address.Zero"/>.
     /// </returns>
-    public static UAddress GetModuleAddress(ProcessHandle processHandle, string name)
+    public static Address GetModuleAddress(ProcessHandle processHandle, string name)
     {
         return GetModuleAddress(processHandle, Encoding.UTF8.GetBytes(name));
     }
@@ -247,9 +247,9 @@ public static unsafe class Process
     /// </param>
     /// <returns>
     ///     The load address of the module when the method succeeds;
-    ///     otherwise, <see cref="UAddress.Zero"/>.
+    ///     otherwise, <see cref="Address.Zero"/>.
     /// </returns>
-    public static UAddress GetModuleAddress(ProcessHandle processHandle, ReadOnlySpan<byte> name)
+    public static Address GetModuleAddress(ProcessHandle processHandle, ReadOnlySpan<byte> name)
     {
         fixed (byte* pName = name)
         {
@@ -395,7 +395,7 @@ public static unsafe class Process
     /// <returns>
     ///     The address of the memory range when the method succeeds;
     /// </returns>
-    public static UAddress GetMemoryRangeAddress(ProcessHandle processHandle, ulong index)
+    public static Address GetMemoryRangeAddress(ProcessHandle processHandle, ulong index)
     {
         return sys.process_get_memory_range_address(processHandle, index);
     }

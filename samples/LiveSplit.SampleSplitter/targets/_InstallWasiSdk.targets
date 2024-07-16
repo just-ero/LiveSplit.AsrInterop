@@ -1,10 +1,10 @@
 <Project>
 
-  <PropertyGroup>
+  <PropertyGroup Condition="'$(WasiSdkVersion)' != ''">
     <WASI_SDK_PATH>$(BaseIntermediateOutputPath)\wasi-sdk-$(WasiSdkVersion)+m</WASI_SDK_PATH>
   </PropertyGroup>
 
-  <Target Name="_InstallWasiSdk" BeforeTargets="Build" Condition="!Exists('$(WASI_SDK_PATH)')">
+  <Target Name="_InstallWasiSdk" BeforeTargets="Build" Condition="'$(WASI_SDK_PATH)' != '' And !Exists('$(WASI_SDK_PATH)')">
     <PropertyGroup>
       <WasiSdkTag>wasi-sdk-$([System.Version]::Parse($(WasiSdkVersion)).Major)</WasiSdkTag>
       <WasiSdkArchive>wasi-sdk-$(WasiSdkVersion).m-mingw64.tar.gz</WasiSdkArchive>

@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 
 using LiveSplit.AsrInterop.Core;
 
@@ -8,7 +7,7 @@ using static LiveSplit.AsrInterop.Core.Process;
 
 namespace LiveSplit.AsrInterop.Extensions;
 
-public static class ProcessExtensions
+public static partial class ProcessExtensions
 {
     /// <summary>
     ///     Retrieves the module with the specified name from the specified process.
@@ -27,7 +26,7 @@ public static class ProcessExtensions
     /// </exception>
     public static Module GetModule(this Process process, string moduleName)
     {
-        UAddress baseAddress = GetModuleAddress(process.Handle, moduleName);
+        Address baseAddress = GetModuleAddress(process.Handle, moduleName);
         if (!baseAddress.IsValid)
         {
             string msg = $"Could not retrieve base address of module '{moduleName}'.";
@@ -69,7 +68,7 @@ public static class ProcessExtensions
     /// </returns>
     public static bool TryGetModule(this Process process, string moduleName, [NotNullWhen(true)] out Module? module)
     {
-        UAddress baseAddress = GetModuleAddress(process.Handle, moduleName);
+        Address baseAddress = GetModuleAddress(process.Handle, moduleName);
         if (!baseAddress.IsValid)
         {
             module = default;
@@ -105,7 +104,7 @@ public static class ProcessExtensions
         MemoryRange[] ranges = new MemoryRange[count];
         for (ulong i = 0; i < count; i++)
         {
-            UAddress baseAddress = GetMemoryRangeAddress(process.Handle, i);
+            Address baseAddress = GetMemoryRangeAddress(process.Handle, i);
             if (!baseAddress.IsValid)
             {
                 string msg = $"Failed to get memory range address for range at index '{i}'.";
@@ -144,7 +143,7 @@ public static class ProcessExtensions
         ranges = new MemoryRange[count];
         for (ulong i = 0; i < count; i++)
         {
-            UAddress baseAddress = GetMemoryRangeAddress(process.Handle, i);
+            Address baseAddress = GetMemoryRangeAddress(process.Handle, i);
             if (!baseAddress.IsValid)
             {
                 ranges = default;
@@ -169,47 +168,5 @@ public static class ProcessExtensions
         }
 
         return true;
-    }
-
-    public static unsafe UAddress Deref(this Process process, UAddress address, params ReadOnlySpan<uint> offsets)
-    {
-        UAddress deref = address;
-        foreach (uint offset in offsets)
-        {
-            if (!Core.Process.Read(process.Handle, deref, &deref, process.GetNativeSizeOf<nuint>()))
-            {
-                return UAddress.Zero;
-            }
-
-            deref += offset;
-        }
-
-        return deref;
-    }
-
-    public static unsafe T Read<T>(this Process process, UAddress address, params ReadOnlySpan<uint> offsets)
-        where T : unmanaged
-    {
-        var deref = process.Deref(address, offsets);
-
-        T value;
-        if (Core.Process.Read(process.Handle, deref, &value, process.GetNativeSizeOf<T>()))
-        {
-            return value;
-        }
-
-        return default;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsNativeType<T>()
-    {
-        return typeof(T) == typeof(nint) || typeof(T) == typeof(nuint) || typeof(T) == typeof(UAddress);
-    }
-
-    private static unsafe uint GetNativeSizeOf<T>(this Process process)
-        where T : unmanaged
-    {
-        return IsNativeType<T>() ? (process.Is64Bit ? 0x8u : 0x4u) : (uint)sizeof(T);
     }
 }
