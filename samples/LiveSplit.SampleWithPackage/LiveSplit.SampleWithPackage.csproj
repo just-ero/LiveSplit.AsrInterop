@@ -20,10 +20,10 @@
 
   <ItemGroup>
     <ProjectReference Include="$(SrcPath)/LiveSplit.AsrInterop/LiveSplit.AsrInterop.csproj" />
-    <ProjectReference Include="$(SrcPath)/LiveSplit.AsrInterop.SourceGenerators/LiveSplit.AsrInterop.SourceGenerators.csproj"
-                      OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false" />
-    <ProjectReference Include="$(SrcPath)/LiveSplit.AsrInterop.SourceGenerators.Core/LiveSplit.AsrInterop.SourceGenerators.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiveSplit.AsrInterop.Generators" Version="*" />
   </ItemGroup>
 
   <ItemGroup>

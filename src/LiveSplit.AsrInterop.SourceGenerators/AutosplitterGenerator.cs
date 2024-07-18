@@ -14,7 +14,7 @@ public sealed class AutosplitterGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var infos = context.SyntaxProvider
-            .ForAttributeWithMetadataName("LiveSplit.AsrInterop.AutosplitterAttribute`1", TargetIsAssembly, GetInfo)
+            .ForAttributeWithMetadataName("LiveSplit.AsrInterop.SourceGenerators.Core.AutosplitterAttribute`1", TargetIsAssembly, GetInfo)
             .Collect()
             .SelectMany(static (infos, _) => infos.Distinct());
 

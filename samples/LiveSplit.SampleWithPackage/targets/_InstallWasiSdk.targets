@@ -1,0 +1,28 @@
+<Project>
+
+  <PropertyGroup Condition="'$(WasiSdkVersion)' != ''">
+    <WASI_SDK_PATH>$(BaseIntermediateOutputPath)\wasi-sdk-$(WasiSdkVersion)+m</WASI_SDK_PATH>
+  </PropertyGroup>
+
+  <Target Name="_InstallWasiSdk" BeforeTargets="Build" Condition="'$(WASI_SDK_PATH)' != '' And !Exists('$(WASI_SDK_PATH)')">
+    <PropertyGroup>
+      <WasiSdkTag>wasi-sdk-$([System.Version]::Parse($(WasiSdkVersion)).Major)</WasiSdkTag>
+      <WasiSdkArchive>wasi-sdk-$(WasiSdkVersion).m-mingw64.tar.gz</WasiSdkArchive>
+
+      <WasiArchiveUrl>https://github.com/WebAssembly/wasi-sdk/releases/download/$(WasiSdkTag)/$(WasiSdkArchive)</WasiArchiveUrl>
+    </PropertyGroup>
+
+    <DownloadFile SourceUrl="$(WasiArchiveUrl)"
+                  DestinationFolder="$(BaseIntermediateOutputPath)">
+      <Output TaskParameter="DownloadedFile"
+              ItemName="WasiSdkArchive" />
+    </DownloadFile>
+
+    <Message Text="Extracting WASI SDK to $(WASI_SDK_PATH)..."
+             Importance="high" />
+
+    <Exec Command="tar -xkmf @(WasiSdkArchive)"
+          WorkingDirectory="$(BaseIntermediateOutputPath)" />
+  </Target>
+
+</Project>

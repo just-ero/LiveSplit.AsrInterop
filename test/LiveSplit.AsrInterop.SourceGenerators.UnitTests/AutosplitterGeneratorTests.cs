@@ -5,7 +5,8 @@ using Microsoft.CodeAnalysis.Text;
 
 using Xunit;
 
-using VerifyCs = LiveSplit.AsrInterop.SourceGenerators.UnitTests.CSharpIncrementalGeneratorVerifier<LiveSplit.AsrInterop.SourceGenerators.AutosplitterGenerator>;
+using VerifyCs = LiveSplit.AsrInterop.SourceGenerators.UnitTests.CSharpIncrementalGeneratorVerifier<
+    LiveSplit.AsrInterop.SourceGenerators.AutosplitterGenerator>;
 
 namespace LiveSplit.AsrInterop.SourceGenerators.UnitTests;
 
@@ -19,7 +20,7 @@ public sealed class AutosplitterGeneratorTests
         string fullName = $"{@namespace}.{@class}";
 
         string source = $$"""
-            [assembly: LiveSplit.AsrInterop.AutosplitterAttribute<{{fullName}}>]
+            [assembly: LiveSplit.AsrInterop.SourceGenerators.Core.AutosplitterAttribute<{{fullName}}>]
 
             namespace {{@namespace}};
 

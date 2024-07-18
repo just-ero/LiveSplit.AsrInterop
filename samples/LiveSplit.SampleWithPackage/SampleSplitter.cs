@@ -3,7 +3,7 @@ using LiveSplit.AsrInterop.Settings;
 
 using static LiveSplit.AsrInterop.Settings.SettingsGenerator;
 
-namespace LiveSplit.SampleSplitter;
+namespace LiveSplit.SampleWithPackage;
 
 public sealed partial class SampleSplitter
 {

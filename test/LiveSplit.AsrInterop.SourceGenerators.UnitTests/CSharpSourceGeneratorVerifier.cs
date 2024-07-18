@@ -15,12 +15,14 @@ public static class CSharpIncrementalGeneratorVerifier<TSourceGenerator>
             ReferenceAssemblies = ReferenceAssemblies.Net.Net90;
 
             TestState.AdditionalReferences.Add(typeof(Process).Assembly);
-            TestState.AdditionalReferences.Add(typeof(Core.Process).Assembly);
+            TestState.AdditionalReferences.Add(typeof(AsrInterop.Core.Process).Assembly);
+            TestState.AdditionalReferences.Add(typeof(Core.AutosplitterAttribute<>).Assembly);
         }
 
         protected override ParseOptions CreateParseOptions()
         {
-            return ((CSharpParseOptions)base.CreateParseOptions()).WithLanguageVersion(LanguageVersion.CSharp12);
+            return ((CSharpParseOptions)base.CreateParseOptions())
+                .WithLanguageVersion(LanguageVersion.CSharp12);
         }
     }
 }

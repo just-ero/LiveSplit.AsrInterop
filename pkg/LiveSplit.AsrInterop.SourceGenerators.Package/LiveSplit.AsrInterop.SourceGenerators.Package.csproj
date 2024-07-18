@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IsPackable>true</IsPackable>
+    <NoWarn>$(NoWarn);NU5128;NU5127</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/just-ero/LiveSplit.AsrInterop</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+    <PackageId>LiveSplit.AsrInterop.Generators</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>$(RepositoryUrl)/tree/main/src/LiveSplit.AsrInterop.SourceGenerators</PackageProjectUrl>
+
+    <Authors>just-ero</Authors>
+    <Copyright>© 2024 just-ero</Copyright>
+    <Description>
+      Source generators for LiveSplit.AsrInterop.
+    </Description>
+
+    <Version>0.0.1</Version>
+    <PackageReleaseNotes>
+      Initial release
+    </PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(SrcPath)\LiveSplit.AsrInterop.SourceGenerators\LiveSplit.AsrInterop.SourceGenerators.csproj"
+                      PrivateAssets="all" />
+    <ProjectReference Include="$(SrcPath)\LiveSplit.AsrInterop.SourceGenerators.Core\LiveSplit.AsrInterop.SourceGenerators.Core.csproj"
+                      PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(SrcPath)\LiveSplit.AsrInterop.SourceGenerators\README.md"
+          Pack="true" PackagePath="\" />
+
+    <None Include="$(OutputPath)\LiveSplit.AsrInterop.SourceGenerators.dll"
+          Pack="true" PackagePath="analyzers/dotnet/cs"
+          Visible="false" />
+
+    <None Include="$(OutputPath)\LiveSplit.AsrInterop.SourceGenerators.Core.dll"
+          Pack="true" PackagePath="lib/netstandard2.0" />
+  </ItemGroup>
+
+</Project>

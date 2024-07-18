@@ -1,4 +1,4 @@
 using LiveSplit.AsrInterop.SourceGenerators.Core;
-using LiveSplit.SampleSplitter;
+using LiveSplit.SampleWithPackage;
 
 [assembly: Autosplitter<SampleSplitter>]
