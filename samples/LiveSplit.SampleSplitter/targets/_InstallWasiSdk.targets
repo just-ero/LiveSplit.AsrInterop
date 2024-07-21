@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup Condition="'$(WasiSdkVersion)' != ''">
-    <WASI_SDK_PATH>$(BaseIntermediateOutputPath)\wasi-sdk-$(WasiSdkVersion)+m</WASI_SDK_PATH>
+    <WASI_SDK_PATH>$(BaseIntermediateOutputPath)/wasi-sdk-$(WasiSdkVersion)+m</WASI_SDK_PATH>
   </PropertyGroup>
 
   <Target Name="_InstallWasiSdk" BeforeTargets="Build" Condition="'$(WASI_SDK_PATH)' != '' And !Exists('$(WASI_SDK_PATH)')">

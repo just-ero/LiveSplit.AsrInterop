@@ -13,7 +13,7 @@
   <!-- Output properties. -->
   <PropertyGroup>
     <UseArtifactsOutput>true</UseArtifactsOutput>
-    <ArtifactsOutputPath>$(RootPath)/artifacts</ArtifactsOutputPath>
+    <ArtifactsPath>$(RootPath)/artifacts</ArtifactsPath>
   </PropertyGroup>
 
 </Project>

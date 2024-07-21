@@ -31,6 +31,6 @@
     <PackageReference Include="runtime.win-x64.Microsoft.DotNet.ILCompiler.LLVM" Version="9.0.0-*" />
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)\targets\*.targets" />
+  <Import Project="$(MSBuildThisFileDirectory)/targets/*.targets" />
 
 </Project>
