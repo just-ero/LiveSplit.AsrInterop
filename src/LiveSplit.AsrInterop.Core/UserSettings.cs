@@ -213,6 +213,37 @@ public static unsafe class UserSettings
     /// <param name="key">
     ///     The key of the filter.
     /// </param>
+    /// <param name="pattern">
+    ///     The pattern of the filter.
+    /// </param>
+    public static void AddFileSelectNameFilter(string key, string pattern)
+    {
+        AddFileSelectNameFilter(Encoding.UTF8.GetBytes(key), Encoding.UTF8.GetBytes(pattern));
+    }
+
+    /// <summary>
+    ///     Adds a file select name filter to the user settings.
+    /// </summary>
+    /// <param name="key">
+    ///     The key of the filter.
+    /// </param>
+    /// <param name="pattern">
+    ///     The pattern of the filter.
+    /// </param>
+    public static void AddFileSelectNameFilter(ReadOnlySpan<byte> key, ReadOnlySpan<byte> pattern)
+    {
+        fixed (byte* pKey = key, pPattern = pattern)
+        {
+            sys.user_settings_add_file_select_name_filter(pKey, (nuint)key.Length, null, 0, pPattern, (nuint)pattern.Length);
+        }
+    }
+
+    /// <summary>
+    ///     Adds a file select name filter to the user settings.
+    /// </summary>
+    /// <param name="key">
+    ///     The key of the filter.
+    /// </param>
     /// <param name="description">
     ///     The description of the filter.
     /// </param>

@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.AsrInterop.Source
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveSplit.AsrInterop.SourceGenerators.Core", "src\LiveSplit.AsrInterop.SourceGenerators.Core\LiveSplit.AsrInterop.SourceGenerators.Core.csproj", "{C0FD2819-FACD-43FB-A19E-7DD2D7EF4448}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveSplit.SampleWithPackage", "samples\LiveSplit.SampleWithPackage\LiveSplit.SampleWithPackage.csproj", "{35A26C89-73B5-4543-892B-D3B1EF2C0116}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,10 +51,6 @@ Global
 		{C0FD2819-FACD-43FB-A19E-7DD2D7EF4448}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0FD2819-FACD-43FB-A19E-7DD2D7EF4448}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0FD2819-FACD-43FB-A19E-7DD2D7EF4448}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35A26C89-73B5-4543-892B-D3B1EF2C0116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35A26C89-73B5-4543-892B-D3B1EF2C0116}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35A26C89-73B5-4543-892B-D3B1EF2C0116}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35A26C89-73B5-4543-892B-D3B1EF2C0116}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,7 +62,6 @@ Global
 		{DC08975E-D640-4C8A-8CD8-31742399D81A} = {82241E1B-8843-42F7-B77A-12BB1E874D5C}
 		{3876C664-AB68-41B3-A07D-E550C4E9C8C3} = {7CBE3CA1-A8F1-46D3-BD84-F7A67A472A96}
 		{C0FD2819-FACD-43FB-A19E-7DD2D7EF4448} = {82241E1B-8843-42F7-B77A-12BB1E874D5C}
-		{35A26C89-73B5-4543-892B-D3B1EF2C0116} = {DB5663FF-55D6-4C74-87B2-23A16782D125}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A10CA0C4-2C82-467B-BBA6-6F02C5DA2989}

@@ -27,10 +27,13 @@ public static class Sources
                 private static LiveSplit.AsrInterop.Process? _process;
 
                 static Autosplitter() {
+                    LiveSplit.AsrInterop.Settings.SettingsHelper.Register(_instance.Settings);
+
                     _instance.Startup();
                 }
 
                 public abstract string[] ProcessNames { get; }
+                public virtual global::System.Collections.Generic.IEnumerable<LiveSplit.AsrInterop.Settings.Setting> Settings => global::System.Array.Empty<LiveSplit.AsrInterop.Settings.Setting>();
 
                 public virtual void Startup() { }
 
