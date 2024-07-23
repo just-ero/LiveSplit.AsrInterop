@@ -70,27 +70,39 @@ public static partial class SettingsHelper
         return new(key, description);
     }
 
-    public static FileSelect Filters(this FileSelect fileSelect, params IEnumerable<string> filters)
+    public static FileSelect WithMimeFilter(this FileSelect fileSelect, string pattern)
     {
         if (fileSelect.MimeFilters is { } existing)
         {
-            return fileSelect with { MimeFilters = existing.Concat(filters) };
+            return fileSelect with { MimeFilters = existing.Append(pattern) };
         }
         else
         {
-            return fileSelect with { MimeFilters = filters };
+            return fileSelect with { MimeFilters = [pattern] };
         }
     }
 
-    public static FileSelect Filters(this FileSelect fileSelect, params IEnumerable<(string? Description, string Pattern)> filters)
+    public static FileSelect WithNameFilter(this FileSelect fileSelect, string pattern)
     {
         if (fileSelect.NameFilters is { } existing)
         {
-            return fileSelect with { NameFilters = existing.Concat(filters) };
+            return fileSelect with { NameFilters = existing.Append((null, pattern)) };
         }
         else
         {
-            return fileSelect with { NameFilters = filters };
+            return fileSelect with { NameFilters = [(null, pattern)] };
+        }
+    }
+
+    public static FileSelect WithNameFilter(this FileSelect fileSelect, string description, string pattern)
+    {
+        if (fileSelect.NameFilters is { } existing)
+        {
+            return fileSelect with { NameFilters = existing.Append((description, pattern)) };
+        }
+        else
+        {
+            return fileSelect with { NameFilters = [(description, pattern)] };
         }
     }
 

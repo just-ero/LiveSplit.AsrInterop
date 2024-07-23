@@ -16,7 +16,7 @@ public sealed class AutosplitterGenerator : IIncrementalGenerator
         var infos = context.SyntaxProvider
             .ForAttributeWithMetadataName("LiveSplit.AsrInterop.SourceGenerators.Core.AutosplitterAttribute`1", TargetIsAssembly, GetInfo)
             .Collect()
-            .SelectMany(static (infos, _) => infos.Distinct());
+            .SelectMany(static (infos, _) => infos);
 
         context.RegisterSourceOutput(infos, Generate);
     }
@@ -49,5 +49,21 @@ public sealed class AutosplitterGenerator : IIncrementalGenerator
 
         context.AddSource(autosplitterFileName, SourceText.From(autosplitter, Encoding.UTF8, SourceHashAlgorithm.Sha256));
         context.AddSource(implementationFileName, SourceText.From(implementation, Encoding.UTF8, SourceHashAlgorithm.Sha256));
+    }
+
+    private sealed class SplitterInfo
+    {
+        public SplitterInfo(ISymbol symbol)
+        {
+            ClassName = symbol.Name;
+            Namespace = symbol.ContainingNamespace.IsGlobalNamespace
+                ? null
+                : symbol.ContainingNamespace.ToString();
+        }
+
+        public string ClassName { get; }
+        public string? Namespace { get; }
+
+        public string FullName => Namespace is null ? ClassName : $"{Namespace}.{ClassName}";
     }
 }

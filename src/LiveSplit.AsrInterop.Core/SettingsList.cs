@@ -1,116 +1,41 @@
 namespace LiveSplit.AsrInterop.Core;
 
-/// <summary>
-///     Provides access to marshalled <see href="https://github.com/LiveSplit/asr">asr</see> settings list functions.
-/// </summary>
-public static unsafe class SettingsList
+public readonly struct SettingsList
 {
-    /// <summary>
-    ///     Creates a new list of settings.
-    /// </summary>
-    /// <remarks>
-    ///     The caller is responsible for freeing the returned list using <see cref="Free"/>.
-    /// </remarks>
-    public static SettingsListHandle New()
+    public SettingsList(ulong handle)
     {
-        return sys.settings_list_new();
+        Handle = handle;
     }
 
-    /// <summary>
-    ///     Frees the handle to the provided <paramref name="list"/>.
-    /// </summary>
-    /// <param name="list">
-    ///     The list to free.
-    /// </param>
-    public static void Free(SettingsListHandle list)
+    public SettingsList()
     {
-        sys.settings_list_free(list);
+        Handle = sys.settings_list_new();
     }
 
-    /// <summary>
-    ///     Copies the provided <paramref name="list"/>.
-    /// </summary>
-    /// <param name="list">
-    ///     The list to copy.
-    /// </param>
-    /// <returns>
-    ///     A copy of the list.
-    /// </returns>
-    /// <remarks>
-    ///     The caller is responsible for freeing the returned list using <see cref="Free"/>.
-    /// </remarks>
-    public static SettingsListHandle Copy(SettingsListHandle list)
+    public ulong Handle { get; }
+    public bool IsValid => Handle != 0;
+
+    public ulong Count => sys.settings_list_len(Handle);
+
+    public Setting this[ulong index] => new(sys.settings_list_get(Handle, index));
+
+    public void Add(Setting value)
     {
-        return sys.settings_list_copy(list);
+        sys.settings_list_push(Handle, value.Handle);
     }
 
-    /// <summary>
-    ///     Gets the length of the provided <paramref name="list"/>.
-    /// </summary>
-    /// <param name="list">
-    ///     The list of which to get the length.
-    /// </param>
-    /// <returns>
-    ///     The length of the list.
-    /// </returns>
-    public static ulong Len(SettingsListHandle list)
+    public void Insert(ulong index, Setting value)
     {
-        return sys.settings_list_len(list);
+        sys.settings_list_insert(Handle, index, value.Handle);
     }
 
-    /// <summary>
-    ///     Gets the value at the specified <paramref name="index"/> in the provided <paramref name="list"/>.
-    /// </summary>
-    /// <param name="list">
-    ///     The list which contains the value.
-    /// </param>
-    /// <param name="index">
-    ///     The index of the value.
-    /// </param>
-    /// <returns>
-    ///     The value at the specified index when the method succeeds;
-    ///     otherwise, <see cref="SettingValueHandle.Zero"/>.
-    /// </returns>
-    /// <remarks>
-    ///     The caller is responsible for freeing the returned value using <see cref="SettingValue.Free"/>.
-    /// </remarks>
-    public static SettingValueHandle Get(SettingsListHandle list, ulong index)
+    public SettingsList Copy()
     {
-        return sys.settings_list_get(list, index);
+        return new(sys.settings_list_copy(Handle));
     }
 
-    /// <summary>
-    ///     Adds a value to the end of the provided <paramref name="list"/>.
-    /// </summary>
-    /// <param name="list">
-    ///     The list to which the value should be added.
-    /// </param>
-    /// <param name="value">
-    ///     The value to add.
-    /// </param>
-    public static void Push(SettingsListHandle list, SettingValueHandle value)
+    public void Free()
     {
-        sys.settings_list_push(list, value);
-    }
-
-    /// <summary>
-    ///     Inserts a value at the specified <paramref name="index"/> of the provided <paramref name="list"/>.
-    /// </summary>
-    /// <param name="list">
-    ///     The list into which the value should be inserted.
-    /// </param>
-    /// <param name="index">
-    ///     The index at which the value should be inserted.
-    /// </param>
-    /// <param name="value">
-    ///     The value to insert.
-    /// </param>
-    /// <returns>
-    ///     <see langword="true"/> if the value was inserted successfully;
-    ///     <see langword="false"/> otherwise.
-    /// </returns>
-    public static bool Insert(SettingsListHandle list, ulong index, SettingValueHandle value)
-    {
-        return sys.settings_list_insert(list, index, value) != 0;
+        sys.settings_list_free(Handle);
     }
 }

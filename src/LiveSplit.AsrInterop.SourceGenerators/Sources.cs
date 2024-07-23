@@ -21,19 +21,16 @@ public static class Sources
 
         #nullable enable
 
-        namespace LiveSplit.AsrInterop.SourceGenerators {
+        namespace LiveSplit.AsrInterop.SourceGenerators.Core {
             public abstract class Autosplitter {
                 private static LiveSplit.AsrInterop.SourceGenerators.Autosplitter _instance = new {{Tokens.SplitterFullName}}();
                 private static LiveSplit.AsrInterop.Process? _process;
 
                 static Autosplitter() {
-                    LiveSplit.AsrInterop.Settings.SettingsHelper.Register(_instance.Settings);
-
                     _instance.Startup();
                 }
 
                 public abstract string[] ProcessNames { get; }
-                public virtual global::System.Collections.Generic.IEnumerable<LiveSplit.AsrInterop.Settings.Setting> Settings => global::System.Array.Empty<LiveSplit.AsrInterop.Settings.Setting>();
 
                 public virtual void Startup() { }
 
