@@ -12,8 +12,7 @@ public sealed class SettingsGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var infos = context.SyntaxProvider
-            .ForAttributeWithMetadataName("LiveSplit.AsrInterop.SourceGenerators.Core.SettingAttribute", Filter, GetProperties)
-            .Collect();
+            .ForAttributeWithMetadataName("LiveSplit.AsrInterop.SourceGenerators.Core.SettingAttribute", Filter, GetProperties);
     }
 
     private static bool Filter(SyntaxNode node, CancellationToken ct)
