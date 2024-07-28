@@ -1,4 +1,4 @@
-namespace LiveSplit.AsrInterop.Windows.Native;
+namespace LiveSplit.AsrInterop.Native.Windows;
 
 internal struct ImageNtHeaders
 {

@@ -16,7 +16,7 @@ public static class MemoryExtensions
 
         foreach (uint offset in offsets)
         {
-            if (!Core.Process.Read(process.Handle, deref, &deref, process.Is64Bit ? 0x8u : 0x4u))
+            if (!process.Owner.TryRead(deref, &deref, process.Is64Bit ? 0x8u : 0x4u))
             {
                 return Address.Zero;
             }
@@ -33,7 +33,7 @@ public static class MemoryExtensions
         Address deref = process.Deref(address, offsets);
 
         T value;
-        if (Core.Process.Read(process.Handle, deref, &value, MemoryHelpers.GetNativeSizeOf<T>(process)))
+        if (process.Owner.TryRead(deref, &value, MemoryHelpers.GetNativeSizeOf<T>(process)))
         {
             return value;
         }
@@ -66,7 +66,7 @@ public static class MemoryExtensions
 
         fixed (T* pBuffer = buffer)
         {
-            Core.Process.Read(process.Handle, deref, pBuffer, MemoryHelpers.GetNativeSizeOf<T>(process) * (uint)buffer.Length);
+            process.Owner.TryRead(deref, pBuffer, MemoryHelpers.GetNativeSizeOf<T>(process) * (uint)buffer.Length);
         }
     }
 
@@ -167,7 +167,7 @@ public static class MemoryExtensions
     {
         int length = buffer.IndexOf('\0');
         return length == -1
-            ? new string(buffer)
-            : new string(buffer[..length]);
+            ? new(buffer)
+            : new(buffer[..length]);
     }
 }

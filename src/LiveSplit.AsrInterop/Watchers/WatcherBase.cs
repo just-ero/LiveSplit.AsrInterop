@@ -12,13 +12,13 @@ public abstract class WatcherBase<T> : IWatcher<T>
     private T? _current;
     private T? _old;
 
-    public WatcherBase(Address startAddress, params uint[] offsets)
+    protected WatcherBase(Address startAddress, params uint[] offsets)
     {
         _startAddress = startAddress;
         _offsets = offsets;
     }
 
-    public WatcherBase(TickCounter tickCounter, Address startAddress, params uint[] offsets)
+    protected WatcherBase(TickCounter tickCounter, Address startAddress, params uint[] offsets)
     {
         _tickCounter = tickCounter;
         _startAddress = startAddress;
@@ -29,7 +29,7 @@ public abstract class WatcherBase<T> : IWatcher<T>
     {
         get
         {
-            if (_tickCounter is { Ticks: ulong tick })
+            if (_tickCounter?.Ticks is ulong tick)
             {
                 if (_tick != tick)
                 {
@@ -50,7 +50,7 @@ public abstract class WatcherBase<T> : IWatcher<T>
     {
         get
         {
-            if (_tickCounter is { Ticks: ulong tick })
+            if (_tickCounter?.Ticks is ulong tick)
             {
                 if (_tick != tick)
                 {

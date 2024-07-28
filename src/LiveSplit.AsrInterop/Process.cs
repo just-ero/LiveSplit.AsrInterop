@@ -1,42 +1,28 @@
 using System;
 using System.IO;
 
-using LiveSplit.AsrInterop.Core;
-
-using static LiveSplit.AsrInterop.Core.Process;
-
 namespace LiveSplit.AsrInterop;
 
-public abstract partial class Process
+public sealed partial class Process
 {
     private string? _processName;
     private Module? _mainModule;
     private bool? _is64Bit;
 
-    protected Process(ProcessHandle handle)
+    public Process(Core.Process owner)
     {
-        Handle = handle;
+        Owner = owner;
     }
 
-    protected Process(ProcessHandle handle, string processName)
-        : this(handle)
-    {
-        _processName = processName;
-    }
-
-    public ProcessHandle Handle { get; }
+    public Core.Process Owner { get; }
 
     public string ProcessName => _processName ??= MainModule.ModuleName;
-    public Module MainModule => _mainModule ??= GetMainModule(Handle);
-    public bool Is64Bit => _is64Bit ??= GetIs64Bit();
+    public Module MainModule => _mainModule ??= MainModuleInternal(Owner);
+    public bool Is64Bit => _is64Bit ??= Is64BitInternal(Owner, MainModule);
 
-    public bool HasExited => !IsOpen(Handle);
-
-    protected abstract bool GetIs64Bit();
-
-    private static Module GetMainModule(ProcessHandle handle)
+    private static Module MainModuleInternal(Core.Process process)
     {
-        if (!GetPath(handle, out string? path))
+        if (!process.TryGetPath(out string? path))
         {
             throw new Exception(
                 "Could not get executable file path.");
@@ -44,14 +30,14 @@ public abstract partial class Process
 
         var mmName = Path.GetFileName(path);
 
-        var mmBase = GetModuleAddress(handle, mmName);
+        var mmBase = process.GetModuleAddress(mmName);
         if (!mmBase.IsValid)
         {
             throw new Exception(
                 $"Could not get main module base address for '{mmName}'.");
         }
 
-        var mmSize = GetModuleSize(handle, mmName);
+        var mmSize = process.GetModuleSize(mmName);
         if (mmSize == 0)
         {
             throw new Exception(

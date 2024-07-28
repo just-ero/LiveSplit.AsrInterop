@@ -1,4 +1,4 @@
-namespace LiveSplit.AsrInterop.Linux.Native;
+namespace LiveSplit.AsrInterop.Native.Linux;
 
 internal enum ElfMachineType : ushort
 {

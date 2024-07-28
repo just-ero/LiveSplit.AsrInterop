@@ -1,15 +1,15 @@
 namespace LiveSplit.AsrInterop.Watchers;
 
-public struct TickCounter
+public sealed class TickCounter
 {
-    public ulong Ticks { get; private set; } = 1;
-
     public TickCounter() { }
 
     public TickCounter(ulong ticks)
     {
         Ticks = ticks;
     }
+
+    public ulong Ticks { get; private set; } = 1;
 
     public static TickCounter operator ++(TickCounter counter)
     {

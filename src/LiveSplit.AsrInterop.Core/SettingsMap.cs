@@ -6,30 +6,100 @@ using System.Text;
 
 namespace LiveSplit.AsrInterop.Core;
 
+/// <summary>
+///     Represents a map of settings.
+/// </summary>
 public readonly struct SettingsMap
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SettingsMap"/> struct
+    ///     with the specified handle.
+    /// </summary>
+    /// <param name="handle">
+    ///     The handle of the settings map.
+    /// </param>
     public SettingsMap(ulong handle)
     {
         Handle = handle;
     }
 
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="SettingsMap"/> struct.
+    /// </summary>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_new()"/>.
+    /// </remarks>
     public SettingsMap()
     {
         Handle = sys.settings_map_new();
     }
 
+    /// <summary>
+    ///     Loads the current global settings map.
+    /// </summary>
+    /// <returns>
+    ///     The current global settings map.
+    /// </returns>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_load()"/>.
+    /// </remarks>
     public static SettingsMap Load()
     {
         return new(sys.settings_map_load());
     }
 
+    /// <summary>
+    ///     Gets the handle of the settings map.
+    /// </summary>
     public ulong Handle { get; }
+
+    /// <summary>
+    ///     Gets a value indicating whether the setting is valid.
+    /// </summary>
+    /// <value>
+    ///     <see langword="true"/> if the setting's handle is not zero;
+    ///     otherwise, <see langword="false"/>.
+    /// </value>
     public bool IsValid => Handle != 0;
 
+    /// <summary>
+    ///     Gets the number of settings in the map.
+    /// </summary>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_len(ulong)"/>.
+    /// </remarks>
     public ulong Count => sys.settings_map_len(Handle);
 
+    /// <summary>
+    ///     Gets the setting at the specified index.
+    /// </summary>
+    /// <param name="index">
+    ///     The index of the setting to get.
+    /// </param>
+    /// <returns>
+    ///     The setting at the specified index.
+    /// </returns>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_get_value_by_index(ulong, ulong)"/>.
+    /// </remarks>
     public Setting this[ulong index] => new(sys.settings_map_get_value_by_index(Handle, index));
 
+    /// <summary>
+    ///     Gets or sets the setting with the specified key.
+    /// </summary>
+    /// <param name="key">
+    ///     The key of the setting to get or set.
+    /// </param>
+    /// <returns>
+    ///     The setting with the specified key.
+    /// </returns>
+    /// <exception cref="KeyNotFoundException">
+    ///     The setting with the specified key was not present in the settings map.
+    /// </exception>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_get(ulong, byte*, nuint)"/>.<br/>
+    ///     Calls <see cref="sys.settings_map_insert(ulong, byte*, nuint, ulong)"/>.
+    /// </remarks>
     public unsafe Setting this[string key]
     {
         get
@@ -51,6 +121,23 @@ public readonly struct SettingsMap
         }
     }
 
+    /// <summary>
+    ///     Tries to get the value of the setting with the specified key.
+    /// </summary>
+    /// <param name="key">
+    ///     The key of the setting to get.
+    /// </param>
+    /// <param name="value">
+    ///     If the key is found, contains the setting with the specified key;
+    ///     otherwise, contains an invalid setting.
+    /// </param>
+    /// <returns>
+    ///     <see langword="true"/> when the key is found;
+    ///     otherwise, <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_get(ulong, byte*, nuint)"/>.
+    /// </remarks>
     public unsafe bool TryGetValue(string key, out Setting value)
     {
         fixed (byte* pKey = Encoding.UTF8.GetBytes(key))
@@ -60,6 +147,23 @@ public readonly struct SettingsMap
         }
     }
 
+    /// <summary>
+    ///     Tries to get the key of the setting at the specified index.
+    /// </summary>
+    /// <param name="index">
+    ///     The index of the setting.
+    /// </param>
+    /// <param name="key">
+    ///     If the index is valid, contains the key of the setting at the specified index;
+    ///     otherwise, <see langword="null"/>.
+    /// </param>
+    /// <returns>
+    ///     <see langword="true"/> when the index is valid;
+    ///     otherwise, <see langword="false"/>.
+    /// </returns>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_get_key_by_index(ulong, ulong, byte*, nuint*)"/>.
+    /// </remarks>
     public unsafe bool TryGetKeyByIndex(ulong index, [NotNullWhen(true)] out string? key)
     {
         nuint length = 128;
@@ -90,21 +194,51 @@ public readonly struct SettingsMap
         return false;
     }
 
+    /// <summary>
+    ///     Stores the settings map as the current global settings map.
+    /// </summary>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_store(ulong)"/>.
+    /// </remarks>
     public void Store()
     {
         sys.settings_map_store(Handle);
     }
 
+    /// <summary>
+    ///     Stores the settings map as the current global settings map if it has not changed.
+    /// </summary>
+    /// <param name="old">
+    ///     The settings map to compare against.
+    /// </param>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_store_if_unchanged(ulong, ulong)"/>.
+    /// </remarks>
     public void StoreIfUnchanged(SettingsMap old)
     {
         sys.settings_map_store_if_unchanged(old.Handle, Handle);
     }
 
+    /// <summary>
+    ///     Copies the settings map.
+    /// </summary>
+    /// <returns>
+    ///     A copy of the settings map.
+    /// </returns>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_copy(ulong)"/>.
+    /// </remarks>
     public SettingsMap Copy()
     {
         return new(sys.settings_map_copy(Handle));
     }
 
+    /// <summary>
+    ///     Frees the settings map.
+    /// </summary>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_free(ulong)"/>.
+    /// </remarks>
     public void Free()
     {
         sys.settings_map_free(Handle);

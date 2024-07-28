@@ -58,7 +58,7 @@ public static unsafe class Runtime
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool GetOs([NotNullWhen(true)] out string? os)
+    public static bool TryGetOs([NotNullWhen(true)] out string? os)
     {
         nuint length = 64;
 
@@ -99,7 +99,7 @@ public static unsafe class Runtime
     ///     <see langword="true"/> when the method succeeds;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool GetArch([NotNullWhen(true)] out string? arch)
+    public static bool TryGetArch([NotNullWhen(true)] out string? arch)
     {
         nuint length = 64;
 
