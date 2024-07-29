@@ -1,26 +1,28 @@
 using System;
 using System.IO;
 
+using LiveSplit.AsrInterop.Core;
+
 namespace LiveSplit.AsrInterop;
 
-public sealed partial class Process
+public sealed partial class ExternalProcess : IDisposable
 {
     private string? _processName;
     private Module? _mainModule;
     private bool? _is64Bit;
 
-    public Process(Core.Process owner)
+    public ExternalProcess(Process owner)
     {
         Owner = owner;
     }
 
-    public Core.Process Owner { get; }
+    public Process Owner { get; }
 
     public string ProcessName => _processName ??= MainModule.ModuleName;
     public Module MainModule => _mainModule ??= MainModuleInternal(Owner);
     public bool Is64Bit => _is64Bit ??= Is64BitInternal(Owner, MainModule);
 
-    private static Module MainModuleInternal(Core.Process process)
+    private static Module MainModuleInternal(Process process)
     {
         if (!process.TryGetPath(out string? path))
         {
@@ -45,5 +47,10 @@ public sealed partial class Process
         }
 
         return new(mmName, mmBase, mmSize, path);
+    }
+
+    public void Dispose()
+    {
+        Owner.Detach();
     }
 }

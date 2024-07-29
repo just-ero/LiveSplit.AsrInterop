@@ -6,16 +6,10 @@ namespace LiveSplit.AsrInterop.Watchers;
 public sealed class Watcher<T> : WatcherBase<T>
     where T : unmanaged
 {
-    private readonly Process _process;
+    private readonly ExternalProcess _process;
 
-    public Watcher(Process process, Address startAddress, params uint[] offsets)
+    public Watcher(ExternalProcess process, Address startAddress, params uint[] offsets)
         : base(startAddress, offsets)
-    {
-        _process = process;
-    }
-
-    public Watcher(Process process, TickCounter tickCounter, Address startAddress, params uint[] offsets)
-        : base(tickCounter, startAddress, offsets)
     {
         _process = process;
     }
@@ -25,8 +19,8 @@ public sealed class Watcher<T> : WatcherBase<T>
         return _process.Read<T>(startAddress, offsets);
     }
 
-    public static Watcher<T> Create(Address startAddress, params uint[] offsets)
+    protected override string ToString(string path)
     {
-        return new(startAddress, offsets);
+        return $"Watcher<{typeof(T)}>({path})";
     }
 }

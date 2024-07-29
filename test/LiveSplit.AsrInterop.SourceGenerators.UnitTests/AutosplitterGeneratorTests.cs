@@ -20,22 +20,20 @@ public sealed class AutosplitterGeneratorTests
         string fullName = $"{@namespace}.{@class}";
 
         string source = $$"""
-            [assembly: LiveSplit.AsrInterop.SourceGenerators.Core.AutosplitterAttribute<{{fullName}}>]
+            [assembly: LiveSplit.AsrInterop.AutosplitterAttribute<{{fullName}}>]
 
             namespace {{@namespace}};
 
-            public partial class {{@class}}
+            public partial class {{@class}} : LiveSplit.AsrInterop.Autosplitter
             {
                 public override string[] ProcessNames => [];
             }
             """;
 
-        string generatedAutosplitter = Sources.AbstractAutosplitter
+        string exportsFile = Files.AutosplitterExports
             .Replace(Tokens.SplitterFullName, fullName);
-
-        string generatedImplementation = Sources.Implementation
-            .Replace(Tokens.SplitterNamespace, @namespace)
-            .Replace(Tokens.SplitterClassName, @class);
+        string exports = Sources.AutosplitterExports
+            .Replace(Tokens.SplitterFullName, fullName);
 
         await new VerifyCs.Test
         {
@@ -46,13 +44,8 @@ public sealed class AutosplitterGeneratorTests
                 {
                     (
                         typeof(AutosplitterGenerator),
-                        Files.AbstractAutosplitter,
-                        SourceText.From(generatedAutosplitter, Encoding.UTF8, SourceHashAlgorithm.Sha256)
-                    ),
-                    (
-                        typeof(AutosplitterGenerator),
-                        Files.Implementation.Replace(Tokens.SplitterFullName, fullName),
-                        SourceText.From(generatedImplementation, Encoding.UTF8, SourceHashAlgorithm.Sha256)
+                        exportsFile,
+                        SourceText.From(exports, Encoding.UTF8, SourceHashAlgorithm.Sha256)
                     )
                 }
             }

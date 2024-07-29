@@ -10,7 +10,7 @@ namespace LiveSplit.AsrInterop.Extensions;
 
 public static class MemoryExtensions
 {
-    public static unsafe Address Deref(this Process process, Address address, params ReadOnlySpan<uint> offsets)
+    public static unsafe Address Deref(this ExternalProcess process, Address address, params ReadOnlySpan<uint> offsets)
     {
         Address deref = address;
 
@@ -27,7 +27,7 @@ public static class MemoryExtensions
         return deref;
     }
 
-    public static unsafe T Read<T>(this Process process, Address address, params ReadOnlySpan<uint> offsets)
+    public static unsafe T Read<T>(this ExternalProcess process, Address address, params ReadOnlySpan<uint> offsets)
         where T : unmanaged
     {
         Address deref = process.Deref(address, offsets);
@@ -41,7 +41,7 @@ public static class MemoryExtensions
         return default;
     }
 
-    public static unsafe void ReadArray<T>(this Process process, Span<T> buffer, Address address, params ReadOnlySpan<uint> offsets)
+    public static unsafe void ReadArray<T>(this ExternalProcess process, Span<T> buffer, Address address, params ReadOnlySpan<uint> offsets)
         where T : unmanaged
     {
         if (!process.Is64Bit && MemoryHelpers.IsNativeType<T>())
@@ -71,7 +71,7 @@ public static class MemoryExtensions
     }
 
     public static unsafe string ReadString(
-        this Process process,
+        this ExternalProcess process,
         int maxLength,
         StringType stringType,
         Address address,
@@ -90,7 +90,7 @@ public static class MemoryExtensions
         };
     }
 
-    private static unsafe string ReadUtf8String(this Process process, int maxLength, Address address, params ReadOnlySpan<uint> offsets)
+    private static unsafe string ReadUtf8String(this ExternalProcess process, int maxLength, Address address, params ReadOnlySpan<uint> offsets)
     {
         byte[]? rented = null;
         Span<byte> buffer = maxLength <= 1024
@@ -108,7 +108,7 @@ public static class MemoryExtensions
         return result;
     }
 
-    private static unsafe string ReadUtf16String(this Process process, int maxLength, Address address, params ReadOnlySpan<uint> offsets)
+    private static unsafe string ReadUtf16String(this ExternalProcess process, int maxLength, Address address, params ReadOnlySpan<uint> offsets)
     {
         char[]? rented = null;
         Span<char> buffer = maxLength <= 512
@@ -126,7 +126,7 @@ public static class MemoryExtensions
         return result;
     }
 
-    private static unsafe string ReadAutoString(this Process process, int maxLength, Address address, params ReadOnlySpan<uint> offsets)
+    private static unsafe string ReadAutoString(this ExternalProcess process, int maxLength, Address address, params ReadOnlySpan<uint> offsets)
     {
         // Assume unicode for the worst-case scenario and just allocate maxLength * 2.
         byte[]? rented = null;

@@ -7,43 +7,28 @@ using Microsoft.CodeAnalysis;
 
 namespace LiveSplit.AsrInterop.SourceGenerators.Metadata.SettingsGenerator;
 
-internal sealed class HeadingInfo(
-    string title,
-    uint level) : IRegisterSetting
+internal sealed class HeadingInfo : ISettingInfo
 {
     public HeadingInfo(AttributeData attribute)
-        : this(
-            GetTitle(attribute),
-            GetLevel(attribute))
-    { }
+    {
+        Title = attribute.GetNamedArgument<string>("Title")!;
+        Level = attribute.GetNamedArgument<uint>("Level");
+    }
 
     public HeadingInfo(AttributeData attribute, uint level)
-        : this(
-            GetTitle(attribute),
-            level)
-    { }
+    {
+        Title = attribute.GetNamedArgument<string>("Title")!;
+        Level = level;
+    }
 
-    public IEnumerable<(string, IEnumerable<(string, string)>)> RegistrationInstructions => [
+    public string Title { get; }
+    public uint Level { get; }
+
+    public IEnumerable<(string, IEnumerable<(string, object)>)> RegisterCode => [
         ("AddTitle", [
-            ("key", $"\"{title}\""),
-            ("title", $"\"{title}\""),
-            ("level", $"{level}")
+            ("key",   Title),
+            ("title", Title),
+            ("level", Level)
         ])
     ];
-
-    private static string GetTitle(AttributeData attribute)
-    {
-        if (attribute.GetConstructorArgument<string>(0) is not { Length: > 0 } title)
-        {
-            throw new ArgumentException(
-                "The title of the heading must not be empty.");
-        }
-
-        return title;
-    }
-
-    private static uint GetLevel(AttributeData attribute)
-    {
-        return attribute.GetConstructorArgument<uint>(1);
-    }
 }

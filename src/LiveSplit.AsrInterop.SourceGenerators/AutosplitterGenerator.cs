@@ -1,50 +1,44 @@
-using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 
-using LiveSplit.AsrInterop.SourceGenerators.Metadata.AutosplitterGenerator;
-
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Text;
 
 namespace LiveSplit.AsrInterop.SourceGenerators;
 
 [Generator(LanguageNames.CSharp)]
-internal sealed class AutosplitterGenerator : IncrementalGenerator<SplitterInfo>
+internal sealed class AutosplitterGenerator : IIncrementalGenerator
 {
-    protected override string AttributeMetadataName { get; } = "LiveSplit.AsrInterop.SourceGenerators.Core.AutosplitterAttribute`1";
+    private const string AttributeMetadataName = "LiveSplit.AsrInterop.SourceGenerators.Core.AutosplitterAttribute`1";
 
-    protected override bool Include(SyntaxNode node, CancellationToken ct)
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
+        var data = context.SyntaxProvider
+            .ForAttributeWithMetadataName(AttributeMetadataName, Include, Transform);
+
+        context.RegisterSourceOutput(data, Generate);
+    }
+
+    private static bool Include(SyntaxNode node, CancellationToken ct)
     {
         return true;
     }
 
-    protected override SplitterInfo Transform(GeneratorAttributeSyntaxContext context, CancellationToken ct)
+    private static Metadata.SplitterInfo Transform(GeneratorAttributeSyntaxContext context, CancellationToken ct)
     {
         // Gets the class passed as a type argument to the attribute.
         ITypeSymbol targetType = context.Attributes[0].AttributeClass!.TypeArguments[0];
 
-        return new(targetType);
+        return new((INamedTypeSymbol)targetType);
     }
 
-    protected override IEnumerable<(string, string)> GetSourceOutput(SourceProductionContext context, SplitterInfo info)
+    private static void Generate(SourceProductionContext context, Metadata.SplitterInfo data)
     {
-        string autosplitter = Sources.AbstractAutosplitter
-            .Replace(Tokens.SplitterFullName, info.FullName);
+        string exportsFile = Files.AutosplitterExports
+            .Replace(Tokens.SplitterFullName, data.FullName);
+        string exports = Sources.AutosplitterExports
+            .Replace(Tokens.SplitterFullName, data.FullName);
 
-        string implementation = info.Namespace is null
-            ? Sources.GlobalNamespaceImplementation
-                .Replace(Tokens.SplitterClassName, info.ClassName)
-            : Sources.Implementation
-                .Replace(Tokens.SplitterNamespace, info.Namespace)
-                .Replace(Tokens.SplitterClassName, info.ClassName);
-
-        string autosplitterFileName = Files.AbstractAutosplitter;
-
-        string implementationFileName = Files.Implementation
-            .Replace(Tokens.SplitterFullName, info.FullName);
-
-        return [
-            (autosplitterFileName, autosplitter),
-            (implementationFileName, implementation)
-        ];
+        context.AddSource(exportsFile, SourceText.From(exports, Encoding.UTF8, SourceHashAlgorithm.Sha256));
     }
 }

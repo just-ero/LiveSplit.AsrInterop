@@ -11,7 +11,7 @@ public sealed partial class SampleSplitter
         Runtime.PrintMessage("Hello, world!");
     }
 
-    public override bool Init(Process game)
+    public override bool Init(ExternalProcess game)
     {
         return true;
     }

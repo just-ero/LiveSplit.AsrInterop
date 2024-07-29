@@ -16,4 +16,8 @@
     <ArtifactsPath>$(RootPath)/artifacts</ArtifactsPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(MSBuildProjectName).UnitTests" />
+  </ItemGroup>
+
 </Project>

@@ -12,25 +12,25 @@ public static class WatcherExtensions
     }
 
     // [OverloadResolutionPriority(1)]
-    public static IWatcher<T> Watch<T>(this Process process, long startOffset, params uint[] offsets)
+    public static IWatcher<T> Watch<T>(this ExternalProcess process, long startOffset, params uint[] offsets)
         where T : unmanaged
     {
         return Watch<T>(process, process.MainModule, startOffset, offsets);
     }
 
-    public static IWatcher<T> Watch<T>(this Process process, string moduleName, long startOffset, params uint[] offsets)
+    public static IWatcher<T> Watch<T>(this ExternalProcess process, string moduleName, long startOffset, params uint[] offsets)
         where T : unmanaged
     {
         return Watch<T>(process, process.GetModule(moduleName), startOffset, offsets);
     }
 
-    public static IWatcher<T> Watch<T>(this Process process, Module module, long startOffset, params uint[] offsets)
+    public static IWatcher<T> Watch<T>(this ExternalProcess process, Module module, long startOffset, params uint[] offsets)
         where T : unmanaged
     {
         return Watch<T>(process, module.BaseAddress + (ulong)startOffset, offsets);
     }
 
-    public static IWatcher<T> Watch<T>(this Process process, Address startAddress, params uint[] offsets)
+    public static IWatcher<T> Watch<T>(this ExternalProcess process, Address startAddress, params uint[] offsets)
         where T : unmanaged
     {
         return new Watcher<T>(process, startAddress, offsets);

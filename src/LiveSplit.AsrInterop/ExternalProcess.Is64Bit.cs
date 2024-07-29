@@ -6,7 +6,7 @@ using LiveSplit.AsrInterop.Native.Windows;
 
 namespace LiveSplit.AsrInterop;
 
-public partial class Process
+public partial class ExternalProcess
 {
     private static bool Is64BitInternal(Core.Process process, Module module)
     {

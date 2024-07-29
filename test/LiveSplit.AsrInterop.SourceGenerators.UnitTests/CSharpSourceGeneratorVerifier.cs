@@ -14,7 +14,7 @@ public static class CSharpIncrementalGeneratorVerifier<TSourceGenerator>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net90;
 
-            TestState.AdditionalReferences.Add(typeof(Process).Assembly);
+            TestState.AdditionalReferences.Add(typeof(ExternalProcess).Assembly);
             TestState.AdditionalReferences.Add(typeof(AsrInterop.Core.Process).Assembly);
             TestState.AdditionalReferences.Add(typeof(Core.AutosplitterAttribute<>).Assembly);
         }

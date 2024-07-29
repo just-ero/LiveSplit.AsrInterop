@@ -1,10 +1,11 @@
+using System.Text;
+
 using LiveSplit.AsrInterop.Core;
 
 namespace LiveSplit.AsrInterop.Watchers;
 
 public abstract class WatcherBase<T> : IWatcher<T>
 {
-    private readonly TickCounter? _tickCounter;
     private readonly Address _startAddress;
     private readonly uint[] _offsets;
 
@@ -18,29 +19,11 @@ public abstract class WatcherBase<T> : IWatcher<T>
         _offsets = offsets;
     }
 
-    protected WatcherBase(TickCounter tickCounter, Address startAddress, params uint[] offsets)
-    {
-        _tickCounter = tickCounter;
-        _startAddress = startAddress;
-        _offsets = offsets;
-    }
-
     public T? Current
     {
         get
         {
-            if (_tickCounter?.Ticks is ulong tick)
-            {
-                if (_tick != tick)
-                {
-                    _tick = tick;
-                    Update();
-                }
-            }
-            else
-            {
-                Update();
-            }
+            Update();
 
             return _current;
         }
@@ -50,18 +33,7 @@ public abstract class WatcherBase<T> : IWatcher<T>
     {
         get
         {
-            if (_tickCounter?.Ticks is ulong tick)
-            {
-                if (_tick != tick)
-                {
-                    _tick = tick;
-                    Update();
-                }
-            }
-            else
-            {
-                Update();
-            }
+            Update();
 
             return _old;
         }
@@ -81,4 +53,17 @@ public abstract class WatcherBase<T> : IWatcher<T>
         _old = _current;
         _current = ReadValue(_startAddress, _offsets);
     }
+
+    public sealed override string ToString()
+    {
+        StringBuilder path = new($"0x{(ulong)_startAddress:X}");
+        foreach (uint offset in _offsets)
+        {
+            path.Append($", 0x{offset:X}");
+        }
+
+        return ToString(path.ToString());
+    }
+
+    protected abstract string ToString(string path);
 }

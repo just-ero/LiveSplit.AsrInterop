@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Immutable;
-using System.Linq;
 
 using Microsoft.CodeAnalysis;
 
@@ -23,6 +21,7 @@ internal static class AttributeDataExtensions
             }
         }
 
-        return default;
+        throw new ArgumentException(
+            $"The attribute does not have a named argument with the name '{name}'.");
     }
 }

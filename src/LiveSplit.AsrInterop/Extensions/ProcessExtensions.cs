@@ -22,7 +22,7 @@ public static partial class ProcessExtensions
     /// <exception cref="InvalidOperationException">
     ///     Thrown if the base address, memory size, or path of the module could not be retrieved.
     /// </exception>
-    public static Module GetModule(this Process process, string moduleName)
+    public static Module GetModule(this ExternalProcess process, string moduleName)
     {
         Address baseAddress = process.Owner.GetModuleAddress(moduleName);
         if (!baseAddress.IsValid)
@@ -64,7 +64,7 @@ public static partial class ProcessExtensions
     ///     <see langword="true"/> if the module was successfully retrieved;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool TryGetModule(this Process process, string moduleName, [NotNullWhen(true)] out Module? module)
+    public static bool TryGetModule(this ExternalProcess process, string moduleName, [NotNullWhen(true)] out Module? module)
     {
         Address baseAddress = process.Owner.GetModuleAddress(moduleName);
         if (!baseAddress.IsValid)
@@ -90,7 +90,7 @@ public static partial class ProcessExtensions
         return true;
     }
 
-    public static MemoryRange[] GetMemoryRanges(this Process process)
+    public static MemoryRange[] GetMemoryRanges(this ExternalProcess process)
     {
         ulong count = process.Owner.MemoryRangeCount;
         if (count == 0)
@@ -129,7 +129,7 @@ public static partial class ProcessExtensions
         return ranges;
     }
 
-    public static bool TryGetMemoryRanges(this Process process, [NotNullWhen(true)] out MemoryRange[]? ranges)
+    public static bool TryGetMemoryRanges(this ExternalProcess process, [NotNullWhen(true)] out MemoryRange[]? ranges)
     {
         ulong count = process.Owner.MemoryRangeCount;
         if (count == 0)

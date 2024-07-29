@@ -1,44 +1,48 @@
 using System;
 
+using LiveSplit.AsrInterop.Settings;
+
 namespace LiveSplit.AsrInterop;
 
 public abstract class Autosplitter
 {
     public abstract string[] ProcessNames { get; }
 
+    public virtual ISettings Settings { get; } = new DefaultSettings();
+
     public virtual void Startup() { }
 
-    public virtual bool Init(Process game)
+    public virtual bool Init(ExternalProcess game)
     {
         return true;
     }
 
-    public virtual bool Update(Process game)
+    public virtual bool Update(ExternalProcess game)
     {
         return true;
     }
 
-    public virtual bool Start(Process game)
+    public virtual bool Start(ExternalProcess game)
     {
         return false;
     }
 
-    public virtual bool Split(Process game)
+    public virtual bool Split(ExternalProcess game)
     {
         return false;
     }
 
-    public virtual bool Reset(Process game)
+    public virtual bool Reset(ExternalProcess game)
     {
         return false;
     }
 
-    public virtual TimeSpan? GameTime(Process game)
+    public virtual TimeSpan? GameTime(ExternalProcess game)
     {
         return null;
     }
 
-    public virtual bool IsLoading(Process game)
+    public virtual bool IsLoading(ExternalProcess game)
     {
         return false;
     }

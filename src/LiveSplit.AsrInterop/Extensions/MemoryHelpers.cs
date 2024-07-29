@@ -13,7 +13,7 @@ internal static class MemoryHelpers
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static unsafe uint GetNativeSizeOf<T>(Process process)
+    public static unsafe uint GetNativeSizeOf<T>(ExternalProcess process)
         where T : unmanaged
     {
         return IsNativeType<T>()
