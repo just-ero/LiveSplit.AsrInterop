@@ -31,9 +31,9 @@ public sealed class AutosplitterGeneratorTests
             """;
 
         string exportsFile = Files.AutosplitterExports
-            .Replace(Tokens.SplitterFullName, fullName);
+            .Replace(Tokens.TypeFullName, fullName);
         string exports = Sources.AutosplitterExports
-            .Replace(Tokens.SplitterFullName, fullName);
+            .Replace(Tokens.TypeFullName, fullName);
 
         await new VerifyCs.Test
         {

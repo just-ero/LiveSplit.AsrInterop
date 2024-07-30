@@ -85,7 +85,7 @@ public readonly struct SettingsMap
     public Setting this[ulong index] => new(sys.settings_map_get_value_by_index(Handle, index));
 
     /// <summary>
-    ///     Gets or sets the setting with the specified key.
+    ///     Gets the setting with the specified key.
     /// </summary>
     /// <param name="key">
     ///     The key of the setting to get or set.
@@ -97,8 +97,7 @@ public readonly struct SettingsMap
     ///     The setting with the specified key was not present in the settings map.
     /// </exception>
     /// <remarks>
-    ///     Calls <see cref="sys.settings_map_get(ulong, byte*, nuint)"/>.<br/>
-    ///     Calls <see cref="sys.settings_map_insert(ulong, byte*, nuint, ulong)"/>.
+    ///     Calls <see cref="sys.settings_map_get(ulong, byte*, nuint)"/>.
     /// </remarks>
     public unsafe Setting this[string key]
     {
@@ -111,13 +110,6 @@ public readonly struct SettingsMap
             }
 
             return value;
-        }
-        set
-        {
-            fixed (byte* pKey = Encoding.UTF8.GetBytes(key))
-            {
-                sys.settings_map_insert(Handle, pKey, (nuint)key.Length, value.Handle);
-            }
         }
     }
 
@@ -192,6 +184,26 @@ public readonly struct SettingsMap
         key = null;
         ArrayPool<byte>.Shared.Return(rented);
         return false;
+    }
+
+    /// <summary>
+    ///     Inserts the specified setting into the map.
+    /// </summary>
+    /// <param name="key">
+    ///     The key of the setting to insert.
+    /// </param>
+    /// <param name="value">
+    ///     The setting to insert.
+    /// </param>
+    /// <remarks>
+    ///     Calls <see cref="sys.settings_map_insert(ulong, byte*, nuint, ulong)"/>.
+    /// </remarks>
+    public unsafe void Insert(string key, Setting value)
+    {
+        fixed (byte* pKey = Encoding.UTF8.GetBytes(key))
+        {
+            sys.settings_map_insert(Handle, pKey, (nuint)key.Length, value.Handle);
+        }
     }
 
     /// <summary>

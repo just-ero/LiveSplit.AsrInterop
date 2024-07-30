@@ -24,7 +24,7 @@ internal sealed class AutosplitterGenerator : IIncrementalGenerator
         return true;
     }
 
-    private static Metadata.SplitterInfo Transform(GeneratorAttributeSyntaxContext context, CancellationToken ct)
+    private static Metadata.AutosplitterTypeInfo Transform(GeneratorAttributeSyntaxContext context, CancellationToken ct)
     {
         // Gets the class passed as a type argument to the attribute.
         ITypeSymbol targetType = context.Attributes[0].AttributeClass!.TypeArguments[0];
@@ -32,12 +32,12 @@ internal sealed class AutosplitterGenerator : IIncrementalGenerator
         return new((INamedTypeSymbol)targetType);
     }
 
-    private static void Generate(SourceProductionContext context, Metadata.SplitterInfo data)
+    private static void Generate(SourceProductionContext context, Metadata.AutosplitterTypeInfo data)
     {
         string exportsFile = Files.AutosplitterExports
-            .Replace(Tokens.SplitterFullName, data.FullName);
+            .Replace(Tokens.TypeFullName, data.FullName);
         string exports = Sources.AutosplitterExports
-            .Replace(Tokens.SplitterFullName, data.FullName);
+            .Replace(Tokens.TypeFullName, data.FullName);
 
         context.AddSource(exportsFile, SourceText.From(exports, Encoding.UTF8, SourceHashAlgorithm.Sha256));
     }

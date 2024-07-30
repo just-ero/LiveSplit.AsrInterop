@@ -2,14 +2,15 @@ using Microsoft.CodeAnalysis;
 
 namespace LiveSplit.AsrInterop.SourceGenerators.Metadata;
 
-internal sealed class SplitterInfo(INamedTypeSymbol symbol)
+internal sealed class AutosplitterTypeInfo(INamedTypeSymbol symbol)
 {
-    public string ClassName { get; } = symbol.Name;
+    public string Name { get; } = symbol.Name;
+
     public string? Namespace { get; } = symbol.ContainingNamespace.IsGlobalNamespace
         ? null
-        : symbol.ContainingNamespace.ToString();
+        : symbol.ContainingNamespace.ToDisplayString();
 
     public string FullName => Namespace is null
-        ? ClassName
-        : $"{Namespace}.{ClassName}";
+        ? Name
+        : $"{Namespace}.{Name}";
 }

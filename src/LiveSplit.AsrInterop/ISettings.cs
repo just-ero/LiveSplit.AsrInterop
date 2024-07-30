@@ -2,9 +2,9 @@ using System;
 
 using LiveSplit.AsrInterop.Core;
 
-namespace LiveSplit.AsrInterop.Settings;
+namespace LiveSplit.AsrInterop;
 
-public interface ISettings
+public interface IAutosplitterSettings
 {
     void RegisterSettings();
 
@@ -48,16 +48,5 @@ public interface ISettings
         }
 
         return value == option;
-    }
-
-    string GetFile(string key)
-    {
-        if (!Map[key].TryGetValue(out string? value))
-        {
-            throw new ArgumentException(
-                $"The setting '{key}' was not a file.");
-        }
-
-        return value;
     }
 }

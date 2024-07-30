@@ -8,7 +8,7 @@ public abstract class Autosplitter
 {
     public abstract string[] ProcessNames { get; }
 
-    public virtual ISettings Settings { get; } = new DefaultSettings();
+    public virtual IAutosplitterSettings Settings { get; } = new DefaultSettings();
 
     public virtual void Startup() { }
 

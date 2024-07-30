@@ -3,7 +3,7 @@ using LiveSplit.AsrInterop.Settings;
 
 namespace LiveSplit.AsrInterop;
 
-public sealed class DefaultSettings : ISettings
+public sealed class DefaultSettings : IAutosplitterSettings
 {
     public SettingsMap Map { get; set; }
 
