@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 using LiveSplit.AsrInterop.SourceGenerators.Extensions;
 
@@ -29,7 +28,8 @@ internal sealed class SettingsTypeInfo(INamedTypeSymbol symbol)
             {
                 foreach (var attribute in property.GetAttributes())
                 {
-                    yield return attribute.AttributeClass?.ToDisplayString() switch
+                    string? name = attribute.AttributeClass?.ToDisplayString();
+                    yield return name switch
                     {
                         Names.HeadingAttribute => new HeadingInfo(attribute),
                         Names.H1Attribute => new HeadingInfo(attribute, 0),

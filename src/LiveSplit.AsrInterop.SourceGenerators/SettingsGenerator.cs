@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -11,7 +12,7 @@ namespace LiveSplit.AsrInterop.SourceGenerators;
 [Generator(LanguageNames.CSharp)]
 internal sealed class SettingsGenerator : IIncrementalGenerator
 {
-    private const string AttributeMetadataName = "LiveSplit.AsrInterop.GeneratedSettingsAttribute";
+    public const string AttributeMetadataName = "LiveSplit.AsrInterop.GeneratedSettingsAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -33,14 +34,6 @@ internal sealed class SettingsGenerator : IIncrementalGenerator
 
     private static void Generate(SourceProductionContext context, SettingsTypeInfo data)
     {
-        string code = data.Namespace is not null
-            ? data.ImplementsInterface
-                ? Sources.SettingsImplementationNoInterface
-                : Sources.SettingsImplementation
-            : data.ImplementsInterface
-                ? Sources.SettingsImplementationGlobalNamespaceNoInterface
-                : Sources.SettingsImplementationGlobalNamespace;
-
         StringBuilder registration = new();
         StringBuilder implementation = new();
 
@@ -57,8 +50,19 @@ internal sealed class SettingsGenerator : IIncrementalGenerator
             }
         }
 
-        code = code.Replace(Tokens.SettingsRegistration, registration.ToString());
-        code = code.Replace(Tokens.SettingsImplementation, implementation.ToString());
+        string code = data.Namespace is not null
+            ? data.ImplementsInterface
+                ? Sources.SettingsImplementationNoInterface
+                : Sources.SettingsImplementation
+            : data.ImplementsInterface
+                ? Sources.SettingsImplementationGlobalNamespaceNoInterface
+                : Sources.SettingsImplementationGlobalNamespace;
+
+        code = code
+            .Replace(Tokens.TypeNamespace, data.Namespace)
+            .Replace(Tokens.TypeName, data.Name)
+            .Replace(Tokens.SettingsRegistration, registration.ToString())
+            .Replace(Tokens.SettingsImplementation, implementation.ToString());
 
         context.AddSource($"{data.FullName}.Impl.g.cs", code);
     }

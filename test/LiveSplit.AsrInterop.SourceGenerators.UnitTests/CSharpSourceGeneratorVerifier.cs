@@ -15,8 +15,7 @@ public static class CSharpIncrementalGeneratorVerifier<TSourceGenerator>
             ReferenceAssemblies = ReferenceAssemblies.Net.Net90;
 
             TestState.AdditionalReferences.Add(typeof(ExternalProcess).Assembly);
-            TestState.AdditionalReferences.Add(typeof(AsrInterop.Core.Process).Assembly);
-            TestState.AdditionalReferences.Add(typeof(Core.AutosplitterAttribute<>).Assembly);
+            TestState.AdditionalReferences.Add(typeof(Core.Process).Assembly);
         }
 
         protected override ParseOptions CreateParseOptions()

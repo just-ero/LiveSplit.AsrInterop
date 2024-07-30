@@ -9,7 +9,7 @@ public abstract class WatcherBase<T> : IWatcher<T>
     private readonly Address _startAddress;
     private readonly uint[] _offsets;
 
-    private ulong _tick;
+    // private ulong _tick;
     private T? _current;
     private T? _old;
 

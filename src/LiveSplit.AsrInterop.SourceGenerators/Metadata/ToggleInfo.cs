@@ -7,37 +7,32 @@ using Microsoft.CodeAnalysis;
 
 namespace LiveSplit.AsrInterop.SourceGenerators.Metadata;
 
-internal sealed class ToggleInfo : IGetSettingInfo
+internal sealed class ToggleInfo : SettingInfo
 {
-    public ToggleInfo(IPropertySymbol property, AttributeData attribute)
+    public ToggleInfo(IPropertySymbol prop, AttributeData attr)
+        : base(attr.GetConstructorArgument<string>(0) ?? prop.Name)
     {
-        if (property.Type.SpecialType != SpecialType.System_Boolean)
+        if (prop.Type.SpecialType != SpecialType.System_Boolean)
         {
             throw new ArgumentException(
                 "The property must be a boolean.",
-                property.ToDisplayString());
+                prop.ToDisplayString());
         }
 
-        Key = attribute.GetNamedArgument<string>("Key") ?? property.ToDisplayString();
-        Description = attribute.GetNamedArgument<string>("Description") ?? Key;
-        Default = attribute.GetNamedArgument<bool>("Default");
-
-        Property = property;
+        Default = attr.GetNamedArgument<bool>("Default");
     }
 
-    public string Key { get; }
-    public string Description { get; }
     public bool Default { get; }
 
-    public IEnumerable<(string, IEnumerable<(string, string)>)> RegisterInfo => [
+    public override IEnumerable<(string, IEnumerable<(string, string)>)> RegisterInfo => [
             ("AddBool", [
-            ("key",          $"\"{Key}\""),
-            ("description",  $"\"{Description}\""),
-            ("defaultValue", $"{Default}".ToLower())])];
+                ("key",          $"\"{Key}\""),
+                ("description",  $"\"{Description}\""),
+                ("defaultValue", $"{Default}".ToLower())
+            ])
+        ];
 
-    public IPropertySymbol Property { get; }
-
-    public (string Method, IEnumerable<(string Name, string Value)> Parameters) GetInfo
+    public override (string, IEnumerable<(string, string)>) GetValueInfo
         => ("GetToggle", [
             ("key", $"\"{Key}\"")
         ]);
