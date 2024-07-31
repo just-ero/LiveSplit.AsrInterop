@@ -10,7 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="$(SrcPath)/LiveSplit.AsrInterop/LiveSplit.AsrInterop.csproj" />
     <ProjectReference Include="$(SrcPath)/LiveSplit.AsrInterop.SourceGenerators/LiveSplit.AsrInterop.SourceGenerators.csproj" />
-    <ProjectReference Include="$(SrcPath)/LiveSplit.AsrInterop.SourceGenerators.Core/LiveSplit.AsrInterop.SourceGenerators.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

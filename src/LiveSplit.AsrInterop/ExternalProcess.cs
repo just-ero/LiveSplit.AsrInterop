@@ -22,6 +22,8 @@ public sealed partial class ExternalProcess : IDisposable
     public Module MainModule => _mainModule ??= MainModuleInternal(Owner);
     public bool Is64Bit => _is64Bit ??= Is64BitInternal(Owner, MainModule);
 
+    public bool HasExited => !Owner.IsOpen;
+
     private static Module MainModuleInternal(Process process)
     {
         if (!process.TryGetPath(out string? path))

@@ -1,7 +1,5 @@
 using System;
 
-using LiveSplit.AsrInterop.Settings;
-
 namespace LiveSplit.AsrInterop;
 
 public abstract class Autosplitter

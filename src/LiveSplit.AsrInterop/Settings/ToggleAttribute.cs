@@ -15,6 +15,7 @@ public sealed class ToggleAttribute : Attribute
 
     public string? Key { get; }
     public string? Description { get; set; }
+    public string? Tooltip { get; set; }
 
     public bool Default { get; set; }
 }

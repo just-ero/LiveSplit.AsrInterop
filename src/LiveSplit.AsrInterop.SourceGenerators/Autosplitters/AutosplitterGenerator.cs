@@ -9,7 +9,7 @@ namespace LiveSplit.AsrInterop.SourceGenerators;
 [Generator(LanguageNames.CSharp)]
 internal sealed class AutosplitterGenerator : IIncrementalGenerator
 {
-    private const string AttributeMetadataName = "LiveSplit.AsrInterop.SourceGenerators.Core.AutosplitterAttribute`1";
+    private const string AttributeMetadataName = "LiveSplit.AsrInterop.AutosplitterAttribute`1";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {

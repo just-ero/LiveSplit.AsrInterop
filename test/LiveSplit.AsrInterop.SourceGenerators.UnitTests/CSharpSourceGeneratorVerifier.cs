@@ -21,7 +21,7 @@ public static class CSharpIncrementalGeneratorVerifier<TSourceGenerator>
         protected override ParseOptions CreateParseOptions()
         {
             return ((CSharpParseOptions)base.CreateParseOptions())
-                .WithLanguageVersion(LanguageVersion.CSharp12);
+                .WithLanguageVersion(LanguageVersion.Preview);
         }
     }
 }

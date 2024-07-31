@@ -14,6 +14,7 @@ public sealed class ChoiceAttribute : Attribute
 
     public string? Key { get; }
     public string? Description { get; set; }
+    public string? Tooltip { get; set; }
 }
 
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
@@ -29,6 +30,7 @@ public sealed class ChoiceAttribute<TEnum> : Attribute
 
     public string? Key { get; }
     public string? Description { get; set; }
+    public string? Tooltip { get; set; }
 
     public TEnum Default { get; set; }
 }
