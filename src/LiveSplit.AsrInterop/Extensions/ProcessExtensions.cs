@@ -5,6 +5,9 @@ using LiveSplit.AsrInterop.Core;
 
 namespace LiveSplit.AsrInterop.Extensions;
 
+/// <summary>
+///     Provides extension methods for <see cref="Process"/>.
+/// </summary>
 public static partial class ProcessExtensions
 {
     /// <summary>
@@ -105,8 +108,7 @@ public static partial class ProcessExtensions
         ulong count = process.MemoryRangeCount;
         if (count == 0)
         {
-            string msg = "Failed to get memory range count.";
-            throw new InvalidOperationException(msg);
+            return [];
         }
 
         MemoryRange[] ranges = new MemoryRange[count];
@@ -158,8 +160,8 @@ public static partial class ProcessExtensions
         ulong count = process.MemoryRangeCount;
         if (count == 0)
         {
-            ranges = default;
-            return false;
+            ranges = [];
+            return true;
         }
 
         ranges = new MemoryRange[count];

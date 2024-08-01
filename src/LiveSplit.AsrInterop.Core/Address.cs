@@ -6,6 +6,8 @@ public readonly struct Address
     : IEqualityOperators<Address, Address, bool>
     , IAdditionOperators<Address, Address, Address>
     , ISubtractionOperators<Address, Address, Address>
+    , IIncrementOperators<Address>
+    , IDecrementOperators<Address>
 {
     public static Address Zero => new(0);
 
@@ -56,5 +58,15 @@ public readonly struct Address
     public static Address operator -(Address left, Address right)
     {
         return new(left._address - right._address);
+    }
+
+    public static Address operator ++(Address value)
+    {
+        return new(value._address + 1);
+    }
+
+    public static Address operator --(Address value)
+    {
+        return new(value._address - 1);
     }
 }

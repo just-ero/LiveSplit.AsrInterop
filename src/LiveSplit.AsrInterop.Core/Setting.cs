@@ -278,7 +278,7 @@ public readonly struct Setting
     /// </remarks>
     public unsafe bool TryGetValue([NotNullWhen(true)] out string? value)
     {
-        nuint length = 256;
+        nuint length = 260;
 
         Span<byte> buffer = stackalloc byte[(int)length];
         fixed (byte* pBuffer = buffer)
