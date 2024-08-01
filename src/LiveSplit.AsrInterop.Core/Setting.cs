@@ -126,6 +126,7 @@ public readonly struct Setting
     /// <value>
     ///     <see langword="true"/> if the setting's handle is not zero;
     ///     otherwise, <see langword="false"/>.
+    /// </value>
     public bool IsValid => Handle != 0;
 
     /// <summary>

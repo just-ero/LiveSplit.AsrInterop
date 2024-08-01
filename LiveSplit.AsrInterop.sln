@@ -3,21 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{DB5663FF-55D6-4C74-87B2-23A16782D125}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.SampleSplitter", "samples\LiveSplit.SampleSplitter\LiveSplit.SampleSplitter.csproj", "{1E2EA21E-C07F-4403-830A-94E245C99B7F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{82241E1B-8843-42F7-B77A-12BB1E874D5C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.AsrInterop", "src\LiveSplit.AsrInterop\LiveSplit.AsrInterop.csproj", "{C1300E97-6A3A-41A9-93DB-69BF0CDF2394}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.AsrInterop.Core", "src\LiveSplit.AsrInterop.Core\LiveSplit.AsrInterop.Core.csproj", "{356C8560-1C56-4953-846C-906BF2C62420}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.AsrInterop.SourceGenerators", "src\LiveSplit.AsrInterop.SourceGenerators\LiveSplit.AsrInterop.SourceGenerators.csproj", "{DC08975E-D640-4C8A-8CD8-31742399D81A}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7CBE3CA1-A8F1-46D3-BD84-F7A67A472A96}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.AsrInterop.SourceGenerators.UnitTests", "test\LiveSplit.AsrInterop.SourceGenerators.UnitTests\LiveSplit.AsrInterop.SourceGenerators.UnitTests.csproj", "{3876C664-AB68-41B3-A07D-E550C4E9C8C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1E2EA21E-C07F-4403-830A-94E245C99B7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1E2EA21E-C07F-4403-830A-94E245C99B7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1E2EA21E-C07F-4403-830A-94E245C99B7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1E2EA21E-C07F-4403-830A-94E245C99B7F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1300E97-6A3A-41A9-93DB-69BF0CDF2394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1300E97-6A3A-41A9-93DB-69BF0CDF2394}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1300E97-6A3A-41A9-93DB-69BF0CDF2394}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,24 +23,13 @@ Global
 		{356C8560-1C56-4953-846C-906BF2C62420}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{356C8560-1C56-4953-846C-906BF2C62420}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{356C8560-1C56-4953-846C-906BF2C62420}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC08975E-D640-4C8A-8CD8-31742399D81A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC08975E-D640-4C8A-8CD8-31742399D81A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC08975E-D640-4C8A-8CD8-31742399D81A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC08975E-D640-4C8A-8CD8-31742399D81A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3876C664-AB68-41B3-A07D-E550C4E9C8C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3876C664-AB68-41B3-A07D-E550C4E9C8C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3876C664-AB68-41B3-A07D-E550C4E9C8C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3876C664-AB68-41B3-A07D-E550C4E9C8C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{1E2EA21E-C07F-4403-830A-94E245C99B7F} = {DB5663FF-55D6-4C74-87B2-23A16782D125}
 		{C1300E97-6A3A-41A9-93DB-69BF0CDF2394} = {82241E1B-8843-42F7-B77A-12BB1E874D5C}
 		{356C8560-1C56-4953-846C-906BF2C62420} = {82241E1B-8843-42F7-B77A-12BB1E874D5C}
-		{DC08975E-D640-4C8A-8CD8-31742399D81A} = {82241E1B-8843-42F7-B77A-12BB1E874D5C}
-		{3876C664-AB68-41B3-A07D-E550C4E9C8C3} = {7CBE3CA1-A8F1-46D3-BD84-F7A67A472A96}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A10CA0C4-2C82-467B-BBA6-6F02C5DA2989}

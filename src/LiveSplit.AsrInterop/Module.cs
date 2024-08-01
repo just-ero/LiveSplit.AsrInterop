@@ -2,8 +2,7 @@ using LiveSplit.AsrInterop.Core;
 
 namespace LiveSplit.AsrInterop;
 
-public sealed record Module(
-    string ModuleName,
+public readonly record struct Module(
     Address BaseAddress,
     ulong Size,
     string FileName);

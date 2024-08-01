@@ -22,29 +22,29 @@ public static partial class ProcessExtensions
     /// <exception cref="InvalidOperationException">
     ///     Thrown if the base address, memory size, or path of the module could not be retrieved.
     /// </exception>
-    public static Module GetModule(this ExternalProcess process, string moduleName)
+    public static Module GetModule(this Process process, string moduleName)
     {
-        Address baseAddress = process.Owner.GetModuleAddress(moduleName);
+        Address baseAddress = process.GetModuleAddress(moduleName);
         if (!baseAddress.IsValid)
         {
             throw new InvalidOperationException(
                 $"Could not retrieve base address of module '{moduleName}'.");
         }
 
-        ulong memorySize = process.Owner.GetModuleSize(moduleName);
+        ulong memorySize = process.GetModuleSize(moduleName);
         if (memorySize == 0)
         {
             throw new InvalidOperationException(
                 $"Could not retrieve memory size of module '{moduleName}'.");
         }
 
-        if (!process.Owner.TryGetModulePath(moduleName, out string? modulePath))
+        if (!process.TryGetModulePath(moduleName, out string? modulePath))
         {
             throw new InvalidOperationException(
                 $"Could not retrieve path of module '{moduleName}'.");
         }
 
-        return new(moduleName, baseAddress, memorySize, modulePath);
+        return new(baseAddress, memorySize, modulePath);
     }
 
     /// <summary>
@@ -64,35 +64,35 @@ public static partial class ProcessExtensions
     ///     <see langword="true"/> if the module was successfully retrieved;
     ///     otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool TryGetModule(this ExternalProcess process, string moduleName, [NotNullWhen(true)] out Module? module)
+    public static bool TryGetModule(this Process process, string moduleName, out Module module)
     {
-        Address baseAddress = process.Owner.GetModuleAddress(moduleName);
+        Address baseAddress = process.GetModuleAddress(moduleName);
         if (!baseAddress.IsValid)
         {
             module = default;
             return false;
         }
 
-        ulong memorySize = process.Owner.GetModuleSize(moduleName);
+        ulong memorySize = process.GetModuleSize(moduleName);
         if (memorySize == 0)
         {
             module = default;
             return false;
         }
 
-        if (!process.Owner.TryGetModulePath(moduleName, out string? modulePath))
+        if (!process.TryGetModulePath(moduleName, out string? modulePath))
         {
             module = default;
             return false;
         }
 
-        module = new(moduleName, baseAddress, memorySize, modulePath);
+        module = new(baseAddress, memorySize, modulePath);
         return true;
     }
 
-    public static MemoryRange[] GetMemoryRanges(this ExternalProcess process)
+    public static MemoryRange[] GetMemoryRanges(this Process process)
     {
-        ulong count = process.Owner.MemoryRangeCount;
+        ulong count = process.MemoryRangeCount;
         if (count == 0)
         {
             string msg = "Failed to get memory range count.";
@@ -102,21 +102,21 @@ public static partial class ProcessExtensions
         MemoryRange[] ranges = new MemoryRange[count];
         for (ulong i = 0; i < count; i++)
         {
-            Address baseAddress = process.Owner.GetMemoryRangeAddress(i);
+            Address baseAddress = process.GetMemoryRangeAddress(i);
             if (!baseAddress.IsValid)
             {
                 string msg = $"Failed to get memory range address for range at index '{i}'.";
                 throw new InvalidOperationException(msg);
             }
 
-            ulong regionSize = process.Owner.GetMemoryRangeSize(i);
+            ulong regionSize = process.GetMemoryRangeSize(i);
             if (regionSize == 0)
             {
                 string msg = $"Failed to get memory range size for range at index '{i}'.";
                 throw new InvalidOperationException(msg);
             }
 
-            MemoryRangeFlags flags = process.Owner.GetMemoryRangeFlags(i);
+            MemoryRangeFlags flags = process.GetMemoryRangeFlags(i);
             if (flags == MemoryRangeFlags.None)
             {
                 string msg = $"Failed to get memory range flags for range at index '{i}'.";
@@ -129,9 +129,9 @@ public static partial class ProcessExtensions
         return ranges;
     }
 
-    public static bool TryGetMemoryRanges(this ExternalProcess process, [NotNullWhen(true)] out MemoryRange[]? ranges)
+    public static bool TryGetMemoryRanges(this Process process, [NotNullWhen(true)] out MemoryRange[]? ranges)
     {
-        ulong count = process.Owner.MemoryRangeCount;
+        ulong count = process.MemoryRangeCount;
         if (count == 0)
         {
             ranges = default;
@@ -141,21 +141,21 @@ public static partial class ProcessExtensions
         ranges = new MemoryRange[count];
         for (ulong i = 0; i < count; i++)
         {
-            Address baseAddress = process.Owner.GetMemoryRangeAddress(i);
+            Address baseAddress = process.GetMemoryRangeAddress(i);
             if (!baseAddress.IsValid)
             {
                 ranges = default;
                 return false;
             }
 
-            ulong regionSize = process.Owner.GetMemoryRangeSize(i);
+            ulong regionSize = process.GetMemoryRangeSize(i);
             if (regionSize == 0)
             {
                 ranges = default;
                 return false;
             }
 
-            MemoryRangeFlags flags = process.Owner.GetMemoryRangeFlags(i);
+            MemoryRangeFlags flags = process.GetMemoryRangeFlags(i);
             if (flags == MemoryRangeFlags.None)
             {
                 ranges = default;
