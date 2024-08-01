@@ -8,12 +8,8 @@
     <IsPackable>false</IsPackable>
     <Nullable>enable</Nullable>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
 
-  <!-- Output properties. -->
-  <PropertyGroup>
     <UseArtifactsOutput>true</UseArtifactsOutput>
-    <ArtifactsPath>$(RootPath)/artifacts</ArtifactsPath>
   </PropertyGroup>
 
   <ItemGroup>

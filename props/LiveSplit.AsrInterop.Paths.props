@@ -4,6 +4,7 @@
   <PropertyGroup>
     <RootPath>$(MSBuildThisFileDirectory)/..</RootPath>
 
+    <ArtifactsPath>$(RootPath)/artifacts</ArtifactsPath>
     <SrcPath>$(RootPath)/src</SrcPath>
   </PropertyGroup>
 
