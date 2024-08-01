@@ -135,7 +135,7 @@ public readonly struct Setting
     /// <remarks>
     ///     Calls <see cref="sys.setting_value_get_type(ulong)"/>.
     /// </remarks>
-    public SettingValueType Type => (SettingValueType)sys.setting_value_get_type(Handle);
+    public SettingType Type => (SettingType)sys.setting_value_get_type(Handle);
 
     /// <summary>
     ///     Tries to get the value of the setting as a map.

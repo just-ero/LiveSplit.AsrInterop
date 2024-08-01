@@ -5,16 +5,40 @@ using System.Text;
 
 namespace LiveSplit.AsrInterop.Core;
 
+/// <summary>
+///     Represents a process.
+/// </summary>
 public readonly struct Process
 {
+    /// <summary>
+    ///     Initializes a new instance of the <see cref="Process"/> struct
+    ///     with the specified process handle.
+    /// </summary>
+    /// <param name="handle">
+    ///     The handle of the process.
+    /// </param>
     public Process(ulong handle)
     {
         Handle = handle;
     }
 
+    /// <summary>
+    ///     Gets the handle of the process.
+    /// </summary>
     public ulong Handle { get; }
+
+    /// <summary>
+    ///     Gets a value indicating whether the process is valid.
+    /// </summary>
+    /// <value>
+    ///     <see langword="true"/> if the process' handle is not zero;
+    ///     otherwise, <see langword="false"/>.
+    /// </value>
     public bool IsValid => Handle != 0;
 
+    /// <summary>
+    ///     Gets a value indicating whether the process is open.
+    /// </summary>
     public bool IsOpen => sys.process_is_open(Handle) != 0;
 
     public unsafe bool TryRead(Address address, void* buffer, nuint length)

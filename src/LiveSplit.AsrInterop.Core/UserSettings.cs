@@ -3,6 +3,9 @@ using System.Text;
 
 namespace LiveSplit.AsrInterop.Core;
 
+/// <summary>
+///     Provides access to marshalled asr user settings functions.
+/// </summary>
 public static unsafe class UserSettings
 {
     /// <summary>

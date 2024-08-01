@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{82241E1B-8843-42F7-B77A-12BB1E874D5C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{72358474-11EA-479B-8268-8F55D176BB5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.AsrInterop", "src\LiveSplit.AsrInterop\LiveSplit.AsrInterop.csproj", "{C1300E97-6A3A-41A9-93DB-69BF0CDF2394}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.AsrInterop", "src\LiveSplit.AsrInterop\LiveSplit.AsrInterop.csproj", "{DD3AD342-47DA-4A0D-AD20-A7B7D8191E82}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.AsrInterop.Core", "src\LiveSplit.AsrInterop.Core\LiveSplit.AsrInterop.Core.csproj", "{356C8560-1C56-4953-846C-906BF2C62420}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveSplit.AsrInterop.Core", "src\LiveSplit.AsrInterop.Core\LiveSplit.AsrInterop.Core.csproj", "{1F7DCF95-8E89-4033-93DE-AB75C84F4CF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,23 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C1300E97-6A3A-41A9-93DB-69BF0CDF2394}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C1300E97-6A3A-41A9-93DB-69BF0CDF2394}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C1300E97-6A3A-41A9-93DB-69BF0CDF2394}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C1300E97-6A3A-41A9-93DB-69BF0CDF2394}.Release|Any CPU.Build.0 = Release|Any CPU
-		{356C8560-1C56-4953-846C-906BF2C62420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{356C8560-1C56-4953-846C-906BF2C62420}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{356C8560-1C56-4953-846C-906BF2C62420}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{356C8560-1C56-4953-846C-906BF2C62420}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD3AD342-47DA-4A0D-AD20-A7B7D8191E82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD3AD342-47DA-4A0D-AD20-A7B7D8191E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD3AD342-47DA-4A0D-AD20-A7B7D8191E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD3AD342-47DA-4A0D-AD20-A7B7D8191E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F7DCF95-8E89-4033-93DE-AB75C84F4CF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F7DCF95-8E89-4033-93DE-AB75C84F4CF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F7DCF95-8E89-4033-93DE-AB75C84F4CF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F7DCF95-8E89-4033-93DE-AB75C84F4CF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C1300E97-6A3A-41A9-93DB-69BF0CDF2394} = {82241E1B-8843-42F7-B77A-12BB1E874D5C}
-		{356C8560-1C56-4953-846C-906BF2C62420} = {82241E1B-8843-42F7-B77A-12BB1E874D5C}
+		{DD3AD342-47DA-4A0D-AD20-A7B7D8191E82} = {72358474-11EA-479B-8268-8F55D176BB5B}
+		{1F7DCF95-8E89-4033-93DE-AB75C84F4CF2} = {72358474-11EA-479B-8268-8F55D176BB5B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A10CA0C4-2C82-467B-BBA6-6F02C5DA2989}
+		SolutionGuid = {A562A0B0-B37A-4A10-8F35-3D57A32A90D6}
 	EndGlobalSection
 EndGlobal

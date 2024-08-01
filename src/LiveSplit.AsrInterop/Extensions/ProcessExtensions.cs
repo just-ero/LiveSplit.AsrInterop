@@ -58,7 +58,7 @@ public static partial class ProcessExtensions
     /// </param>
     /// <param name="module">
     ///     The module with the specified name when the method succeeds;
-    ///     otherwise, <see langword="null"/>.
+    ///     otherwise, an invalid module.
     /// </param>
     /// <returns>
     ///     <see langword="true"/> if the module was successfully retrieved;
@@ -90,6 +90,16 @@ public static partial class ProcessExtensions
         return true;
     }
 
+    /// <summary>
+    ///     Retrieves the memory ranges in the specified process.
+    /// </summary>
+    /// <param name="process">
+    ///     The process from which to retrieve the memory ranges.
+    /// </param>
+    /// <returns>
+    ///     The memory ranges in the specified process.
+    /// </returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public static MemoryRange[] GetMemoryRanges(this Process process)
     {
         ulong count = process.MemoryRangeCount;
@@ -129,6 +139,20 @@ public static partial class ProcessExtensions
         return ranges;
     }
 
+    /// <summary>
+    ///     Attempts to retrieve the memory ranges in the specified process.
+    /// </summary>
+    /// <param name="process">
+    ///     The process from which to retrieve the memory ranges.
+    /// </param>
+    /// <param name="ranges">
+    ///     The memory ranges in the specified process when the method succeeds;
+    ///     otherwise, <see langword="null"/>.
+    /// </param>
+    /// <returns>
+    ///     <see langword="true"/> if the memory ranges were successfully retrieved;
+    ///     otherwise, <see langword="false"/>.
+    /// </returns>
     public static bool TryGetMemoryRanges(this Process process, [NotNullWhen(true)] out MemoryRange[]? ranges)
     {
         ulong count = process.MemoryRangeCount;

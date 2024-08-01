@@ -6,7 +6,7 @@ using System.Text;
 namespace LiveSplit.AsrInterop.Core;
 
 /// <summary>
-///     Provides access to marshalled <see href="https://github.com/LiveSplit/asr">asr</see> runtime functions.
+///     Provides access to marshalled asr runtime functions.
 /// </summary>
 public static unsafe class Runtime
 {
