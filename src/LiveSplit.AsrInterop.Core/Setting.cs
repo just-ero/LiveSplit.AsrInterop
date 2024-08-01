@@ -299,11 +299,13 @@ public readonly struct Setting
                 ArrayPool<byte>.Shared.Return(rented);
                 return true;
             }
+            else
+            {
+                value = null;
+                ArrayPool<byte>.Shared.Return(rented);
+                return false;
+            }
         }
-
-        value = null;
-        ArrayPool<byte>.Shared.Return(rented);
-        return false;
     }
 
     /// <summary>

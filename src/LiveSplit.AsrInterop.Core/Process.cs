@@ -69,11 +69,13 @@ public readonly struct Process
                 ArrayPool<byte>.Shared.Return(rented);
                 return true;
             }
+            else
+            {
+                path = null;
+                ArrayPool<byte>.Shared.Return(rented);
+                return false;
+            }
         }
-
-        path = null;
-        ArrayPool<byte>.Shared.Return(rented);
-        return false;
     }
 
     public unsafe Address GetModuleAddress(string moduleName)
@@ -117,11 +119,13 @@ public readonly struct Process
                     ArrayPool<byte>.Shared.Return(rented);
                     return true;
                 }
+                else
+                {
+                    path = null;
+                    ArrayPool<byte>.Shared.Return(rented);
+                    return false;
+                }
             }
-
-            path = null;
-            ArrayPool<byte>.Shared.Return(rented);
-            return false;
         }
     }
 
@@ -180,11 +184,13 @@ public readonly struct Process
                     ArrayPool<ulong>.Shared.Return(rented);
                     return true;
                 }
+                else
+                {
+                    processIds = null;
+                    ArrayPool<ulong>.Shared.Return(rented);
+                    return false;
+                }
             }
-
-            processIds = null;
-            ArrayPool<ulong>.Shared.Return(rented);
-            return false;
         }
     }
 

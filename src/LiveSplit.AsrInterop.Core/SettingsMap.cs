@@ -179,11 +179,13 @@ public readonly struct SettingsMap
                 ArrayPool<byte>.Shared.Return(rented);
                 return true;
             }
+            else
+            {
+                key = null;
+                ArrayPool<byte>.Shared.Return(rented);
+                return false;
+            }
         }
-
-        key = null;
-        ArrayPool<byte>.Shared.Return(rented);
-        return false;
     }
 
     /// <summary>
